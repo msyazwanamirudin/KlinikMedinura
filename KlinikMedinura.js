@@ -160,7 +160,7 @@ let answers = {
                     <p class="mb-3"><strong>${resultText}</strong></p>
                     <p class="mb-4">${recommendation}</p>
                     <div class="d-grid gap-2">
-                        <a href="https://wa.me/60105120050" target="_blank" class="btn btn-whatsapp">
+                        <a href="https://wa.me/60172032048" target="_blank" class="btn btn-whatsapp">
                             <i class="fab fa-whatsapp me-2"></i>${currentLang === 'en' ? 'Book Appointment Now' : 'Tempah Janji Temu Sekarang'}
                         </a>
                     </div>
@@ -320,7 +320,7 @@ function submitAppointmentForm(e) {
     const message = `Hello Klinik Medinura! I would like to book an appointment.\nName: ${name}\nDepartment: ${dept}\nPreferred Time: ${time}\nPhone: ${phone}\nNotes: ${notes}`;
     
     // Update href with encoded message
-    e.target.href = `https://wa.me/60105120050?text=${encodeURIComponent(message)}`;
+    e.target.href = `https://wa.me/60172032048?text=${encodeURIComponent(message)}`;
 }
 
 // === DOCTOR FILTER FUNCTIONALITY ===
