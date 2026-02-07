@@ -42,12 +42,12 @@ function applyLanguage() {
 }
 
 function toggleLanguage() {
-    currentLang = (currentLang === 'en' || currentLang === 'en') ? 'ms' : 'en';
+    currentLang = (currentLang === 'en') ? 'ms' : 'en';
     applyLanguage();
     localStorage.setItem('language', currentLang);
 }
 
-// Initialize theme and language on load
+// Initialize on load
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'dark') {
@@ -90,6 +90,7 @@ function selectOption(questionNum, score, element) {
     const questionBlock = element.parentElement;
     questionBlock.querySelectorAll('.quiz-option').forEach(opt => {
         opt.classList.remove('selected');
+        opt.classList.remove('is-invalid', 'shake');
     });
     
     element.classList.add('selected');
@@ -114,8 +115,10 @@ function validateQuiz() {
                 ? `Please answer question ${i} before proceeding.` 
                 : `Sila jawab soalan ${i} sebelum meneruskan.`;
             alert(quizAlert);
-            document.getElementById('q' + i).style.display = 'block';
-            document.getElementById('q' + i).scrollIntoView({ behavior: 'smooth' });
+            const qBlock = document.getElementById('q' + i);
+            qBlock.classList.add('shake');
+            qBlock.style.display = 'block';
+            qBlock.scrollIntoView({ behavior: 'smooth' });
             return false;
         }
     }
@@ -150,7 +153,7 @@ function showResult() {
             <h4>${resultTitle}</h4>
             <p><strong>${resultText}</strong></p>
             <p>${recommendation}</p>
-            <button onclick="window.open('https://wa.me/60172032048', '_blank')" class="btn btn-whatsapp mt-2">
+            <button onclick=\"window.open('https://wa.me/60172032048', '_blank')\" class=\"btn btn-whatsapp mt-2\">
                 ${currentLang === 'en' ? 'Book Appointment' : 'Tempah Janji Temu'}
             </button>
         </div>
@@ -169,18 +172,36 @@ function resetQuiz() {
     document.getElementById('resetBtn').style.display = 'none';
     document.getElementById('q1').style.display = 'block';
     for (let i = 2; i <= 4; i++) { document.getElementById('q' + i).style.display = 'none'; }
-    document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
+    document.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected', 'is-invalid', 'shake'));
     document.getElementById('health-checker').scrollIntoView({ behavior: 'smooth' });
 }
 
 // === APPOINTMENT FORM VALIDATION & WHATSAPP AUTOFILL ===
 function submitAppointmentForm(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
-    const name = document.getElementById('name')?.value.trim() || '';
-    const phone = document.getElementById('phone')?.value.trim() || '';
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
     
-    if (name === '' || phone === '') {
+    // Clear previous error states
+    nameInput?.classList.remove('is-invalid', 'shake');
+    phoneInput?.classList.remove('is-invalid', 'shake');
+
+    const name = nameInput?.value.trim() || '';
+    const phone = phoneInput?.value.trim() || '';
+    
+    let isValid = true;
+
+    if (name === '') {
+        nameInput?.classList.add('is-invalid', 'shake');
+        isValid = false;
+    }
+    if (phone === '') {
+        phoneInput?.classList.add('is-invalid', 'shake');
+        isValid = false;
+    }
+
+    if (!isValid) {
         const alertMsg = currentLang === 'en' 
             ? 'Please provide at least your name and phone number.' 
             : 'Sila berikan sekurang-kurangnya nama dan nombor telefon anda.';
@@ -190,8 +211,17 @@ function submitAppointmentForm(e) {
 
     const deptEl = document.querySelector('input[name="department"]:checked');
     const timeEl = document.querySelector('input[name="time"]:checked');
-    const dept = deptEl ? deptEl.value : 'Not selected';
-    const time = timeEl ? timeEl.value : 'Not selected';
+    
+    if (!deptEl || !timeEl) {
+        const alertMsg = currentLang === 'en' 
+            ? 'Please select a department and a preferred time.' 
+            : 'Sila pilih jabatan dan waktu pilihan.';
+        alert(alertMsg);
+        return;
+    }
+
+    const dept = deptEl.value;
+    const time = timeEl.value;
     const notes = document.getElementById('notes')?.value || 'None';
     
     const message = `Hello Klinik Medinura! I would like to book an appointment.
@@ -207,19 +237,28 @@ function submitAppointmentForm(e) {
 
 // === FORM NAVIGATION ===
 function nextStep(stepNum) {
-    if (stepNum === 1 && document.querySelector('input[name="department"]:checked')) moveToStep(2);
-    else if (stepNum === 2 && document.querySelector('input[name="time"]:checked')) moveToStep(3);
+    if (stepNum === 1) {
+        if (document.querySelector('input[name="department"]:checked')) moveToStep(2);
+        else alert(currentLang === 'en' ? 'Please select a department.' : 'Sila pilih jabatan.');
+    } else if (stepNum === 2) {
+        if (document.querySelector('input[name="time"]:checked')) moveToStep(3);
+        else alert(currentLang === 'en' ? 'Please select a time.' : 'Sila pilih waktu.');
+    }
 }
 
 function prevStep(stepNum) { moveToStep(stepNum - 1); }
 
 function moveToStep(step) {
     for (let i = 1; i <= 3; i++) {
-        document.getElementById(`step-${i}`)?.classList.remove('active');
-        document.getElementById(`step-${i}-indicator`)?.classList.remove('active');
+        const stepEl = document.getElementById(`step-${i}`);
+        const indicatorEl = document.getElementById(`step-${i}-indicator`);
+        if (stepEl) stepEl.classList.remove('active');
+        if (indicatorEl) indicatorEl.classList.remove('active');
     }
-    document.getElementById(`step-${step}`)?.classList.add('active');
-    document.getElementById(`step-${step}-indicator`)?.classList.add('active');
+    const currentStepEl = document.getElementById(`step-${step}`);
+    const currentIndicatorEl = document.getElementById(`step-${step}-indicator`);
+    if (currentStepEl) currentStepEl.classList.add('active');
+    if (currentIndicatorEl) currentIndicatorEl.classList.add('active');
 }
 
 // === UI HELPERS ===
@@ -242,6 +281,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         if (this.getAttribute('href') === '#') return;
         e.preventDefault();
-        document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
     });
 });
