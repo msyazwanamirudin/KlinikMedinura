@@ -1,159 +1,285 @@
 :root {
+    /* Color Palette */
     --primary: #8B1E3F;
+    --primary-dark: #66102a;
     --primary-light: #B3454B;
     --accent: #FFD700;
+    
+    /* Surfaces */
+    --bg-body: #f8faff;
     --bg-surface: #ffffff;
-    --bg-body: #fdfdfd;
+    --glass: rgba(255, 255, 255, 0.75);
+    
+    /* Typography & UI */
     --text-main: #2d3436;
-    --glass: rgba(255, 255, 255, 0.8);
-    --shadow: 0 10px 30px rgba(139, 30, 63, 0.08);
-    --radius: 20px;
+    --text-muted: #636e72;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 30px;
+    
+    /* Depth */
+    --shadow-sm: 0 4px 6px rgba(139, 30, 63, 0.05);
+    --shadow-md: 0 10px 30px rgba(139, 30, 63, 0.08);
+    --shadow-lg: 0 20px 50px rgba(139, 30, 63, 0.12);
+    --shadow-hover: 0 20px 40px rgba(139, 30, 63, 0.15);
 }
 
 [data-theme="dark"] {
-    --bg-surface: #1a1a1a;
     --bg-body: #121212;
+    --bg-surface: #1e1e1e;
+    --glass: rgba(30, 30, 30, 0.75);
     --text-main: #f5f5f5;
-    --glass: rgba(26, 26, 26, 0.8);
-    --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    --text-muted: #a0a0a0;
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.2);
+    --shadow-md: 0 10px 30px rgba(0,0,0,0.3);
 }
+
+/* Global Reset & Typography */
+* { transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
 
 body {
     background-color: var(--bg-body);
     color: var(--text-main);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
 }
 
-/* Modern Glass Navbar */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* --- Navigation --- */
 .navbar {
     background: var(--glass) !important;
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(139, 30, 63, 0.05);
     padding: 15px 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s ease;
 }
 
 .navbar.scrolled {
-    padding: 8px 0;
-    box-shadow: var(--shadow);
+    padding: 10px 0;
+    box-shadow: var(--shadow-md);
+    background: rgba(255,255,255,0.95) !important;
 }
 
-/* Hero Section: The "Blob" Aesthetic */
+[data-theme="dark"] .navbar.scrolled {
+    background: rgba(30,30,30,0.95) !important;
+}
+
+.navbar-brand img { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+.nav-link { font-weight: 500; color: var(--text-main) !important; margin: 0 5px; }
+.nav-link:hover { color: var(--primary) !important; transform: translateY(-2px); }
+
+/* --- Hero Section --- */
 .hero-section {
-    padding: 160px 0 100px;
-    background: radial-gradient(circle at top right, rgba(179, 69, 75, 0.1), transparent),
-                radial-gradient(circle at bottom left, rgba(139, 30, 63, 0.05), transparent);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-section::after {
-    content: '';
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    background: var(--primary);
-    filter: blur(150px);
-    opacity: 0.1;
-    top: -100px;
-    right: -100px;
-    z-index: 0;
-}
-
-/* Modern Card Design */
-.card {
-    background: var(--bg-surface);
-    border: 1px solid rgba(0,0,0,0.03);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    padding: 1.5rem;
-}
-
-[data-theme="dark"] .card {
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.card:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 20px 40px rgba(139, 30, 63, 0.15);
-}
-
-/* Animated Service Icons */
-.service-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    color: white;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 15px rgba(139, 30, 63, 0.2);
-}
-
-/* Neo-Brutalism Buttons */
-.btn-whatsapp {
-    background: #25D366;
-    border-radius: 14px;
-    padding: 14px 28px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
-}
-
-.btn-try-checker {
-    background: var(--primary);
-    border-radius: 14px;
-    padding: 14px 28px;
-    border: none;
-}
-
-/* Interactive Health Checker */
-.quiz-container {
-    background: var(--bg-surface);
-    border: 2px solid var(--primary);
-    border-radius: 24px;
+    padding: 180px 0 120px;
+    background: 
+        radial-gradient(circle at top right, rgba(139, 30, 63, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at bottom left, rgba(255, 215, 0, 0.05) 0%, transparent 40%);
     position: relative;
 }
 
-.quiz-option {
-    background: var(--bg-body);
-    border: 1px solid rgba(0,0,0,0.05);
-    border-radius: 15px;
-    padding: 20px;
-    font-weight: 500;
-}
-
-.quiz-option:hover, .quiz-option.selected {
-    background: var(--primary) !important;
-    color: white !important;
-}
-
-/* Floating Scroll Button */
-.scroll-to-top {
-    border-radius: 12px;
-    background: var(--primary);
-    width: 50px;
-    height: 50px;
-    transition: all 0.3s ease;
-}
-
-/* Section titles with modern underlines */
-.section-title {
-    font-weight: 800;
-    font-size: 2.5rem;
-    background: linear-gradient(to right, var(--primary), var(--primary-light));
+.hero-section h1 {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--text-main) 0%, var(--primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-.section-title::after {
-    height: 6px;
-    width: 60px;
-    border-radius: 10px;
+/* --- Buttons --- */
+.btn {
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.btn:active { transform: scale(0.95); }
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp:hover { background: #1ebc57; transform: translateY(-3px); color: white; }
+
+.btn-try-checker {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    box-shadow: 0 10px 20px rgba(139, 30, 63, 0.3);
+}
+
+.btn-try-checker:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(139, 30, 63, 0.4); color: white; }
+
+/* --- Cards & Services --- */
+.section-title {
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+    margin: 10px auto 0;
+}
+
+.card {
+    background: var(--bg-surface);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.service-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(139, 30, 63, 0.1);
+    color: var(--primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.card:hover .service-icon {
+    background: var(--primary);
+    color: white;
+    transform: rotateY(180deg);
+}
+
+/* --- Symptom Checker (Quiz) --- */
+.quiz-container {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+    border: 2px solid rgba(139, 30, 63, 0.1);
+}
+
+.quiz-option {
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+    background: var(--bg-body);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.quiz-option:hover { border-color: var(--primary-light); background: rgba(139, 30, 63, 0.05); }
+
+.quiz-option.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(139, 30, 63, 0.3);
+}
+
+/* --- Doctor Cards --- */
+.doctor-card-wrapper { perspective: 1000px; }
+
+.doctor-badge img {
+    border: 4px solid var(--primary);
+    padding: 3px;
+    background: white;
+    box-shadow: var(--shadow-md);
+}
+
+/* --- Appointment Form (Wizard) --- */
+.appointment-form-container {
+    background: var(--bg-surface);
+    border-radius: var(--radius-lg);
+    padding: 3rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.progress-step .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-body);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin: 0 auto 10px;
+    border: 2px solid transparent;
+}
+
+.progress-step.active .step-number {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(139, 30, 63, 0.2);
+}
+
+.form-control {
+    background-color: var(--bg-body);
+    border: 1px solid transparent;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+}
+
+.form-control:focus {
+    background-color: var(--bg-surface);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(139, 30, 63, 0.1);
+}
+
+/* --- Misc --- */
+.info-badge {
+    background: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: var(--shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    margin: 5px;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+[data-theme="dark"] .info-badge { background: #2d2d2d; color: #fff; }
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(139, 30, 63, 0.3);
+    z-index: 999;
+}
+
+.scroll-to-top:hover { transform: translateY(-5px); }
