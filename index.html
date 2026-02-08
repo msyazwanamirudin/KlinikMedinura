@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Klinik Medinura - Your Trusted Healthcare Partner</title>
+    <title>Klinik Medinura - Premium Family Healthcare</title>
     <link rel="icon" type="image/png" href="assets/logo.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
@@ -20,325 +20,360 @@
 <body>
 
     <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#" onclick="scrollToTop(event)">
-                <img src="assets/logo.png" alt="Klinik Medinura" class="navbar-logo"> 
-                <span class="brand-text d-none d-sm-block">Klinik Medinura</span>
+        <div class="container-fluid px-lg-5">
+            <a class="navbar-brand d-flex align-items-center" href="#" onclick="scrollToTop(event)">
+                <div class="logo-pill">
+                    <img src="assets/logo.png" alt="Klinik Medinura" class="navbar-logo"> 
+                </div>
+                <span class="brand-text ms-2">Klinik Medinura</span>
             </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center gap-2">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link active" href="#" onclick="scrollToTop(event)">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#health-checker">Check Symptoms</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#doctors">Doctors</a></li>
-                    <li class="nav-item d-flex gap-2 ms-3">
-                        <button class="btn btn-sm btn-outline-primary rounded-pill px-3" id="langBtn" onclick="toggleLanguage()"><span id="langText">BM</span></button>
-                        <button class="btn btn-sm btn-theme-toggle rounded-circle" id="themeBtn" onclick="toggleTheme()">
+                    <li class="nav-item"><a class="nav-link" href="#health-checker">Symptom Check</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#doctors">Specialists</a></li>
+                    <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
+                        <button class="btn-icon-toggle" id="langBtn" onclick="toggleLanguage()">BM</button>
+                        <button class="btn-icon-toggle" id="themeBtn" onclick="toggleTheme()">
                             <i id="themeIcon" class="fas fa-moon"></i>
                         </button>
+                        <a href="#appointment-form" class="btn btn-primary-gradient ms-2 d-none d-lg-block">Book Now</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section class="hero-section">
-        <div class="hero-bg-graphic"></div>
-        <div class="container hero-content">
-            <div class="row align-items-center">
-                <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
-                    <div class="hero-badge">
-                        <i class="fas fa-shield-heart me-2"></i> #1 Family Clinic in Kajang
+    <header class="hero-section">
+        <div class="container position-relative z-2">
+            <div class="row align-items-center min-vh-100 py-5">
+                <div class="col-lg-6 hero-text-col" data-aos="fade-right" data-aos-duration="1200">
+                    <div class="badge-premium mb-4">
+                        <i class="fas fa-star text-warning me-2"></i> Top Rated Clinic in Kajang
                     </div>
-                    <h1 class="display-4 fw-bold hero-title mb-4" data-en="Caring For Your Family's Health" data-ms="Menjaga Kesihatan Keluarga Anda">
-                        Caring For Your Family's Health
+                    <h1 class="display-3 fw-bolder mb-4 hero-heading" data-en="Modern Healthcare for Your Family" data-ms="Penjagaan Kesihatan Moden untuk Keluarga Anda">
+                        Modern Healthcare for Your Family
                     </h1>
-                    <p class="lead mb-4" style="color: var(--text-muted);" data-en="We're here for your family's health journey every single day, from 9am to 10pm." data-ms="Kami ada untuk perjalanan kesihatan keluarga anda setiap hari, dari jam 9 pagi hingga 10 malam.">
-                        We're here for your family's health journey every single day, from 9am to 10pm.
+                    <p class="lead mb-5 hero-sub" data-en="Experience compassionate care with advanced medical technology. Open daily 9AM - 10PM." data-ms="Alami penjagaan penuh kasih sayang dengan teknologi perubatan canggih. Buka setiap hari 9AM - 10PM.">
+                        Experience compassionate care with advanced medical technology. Open daily 9AM - 10PM.
                     </p>
                     
-                    <div class="d-flex flex-wrap gap-3 mb-4">
-                        <a href="https://wa.me/60105120050" target="_blank" class="btn btn-whatsapp btn-lg shadow-sm">
-                            <i class="fab fa-whatsapp me-2"></i><span data-en="Book Appointment" data-ms="Tempah Temu Janji">Book Appointment</span>
+                    <div class="d-flex flex-column flex-sm-row gap-3">
+                        <a href="#appointment-form" class="btn btn-primary-gradient btn-lg">
+                            <span data-en="Book Appointment" data-ms="Tempah Temu Janji">Book Appointment</span>
+                            <i class="fas fa-arrow-right ms-2"></i>
                         </a>
-                        <a href="#health-checker" class="btn btn-outline-primary btn-lg shadow-sm">
-                            <i class="fas fa-stethoscope me-2"></i><span data-en="Symptom Checker" data-ms="Pemeriksa Gejala">Symptom Checker</span>
+                        <a href="https://wa.me/60105120050" target="_blank" class="btn btn-outline-premium btn-lg">
+                            <i class="fab fa-whatsapp me-2"></i> WhatsApp Us
                         </a>
                     </div>
-                    
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="d-flex text-warning">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+
+                    <div class="mt-5 d-flex align-items-center gap-4 trust-indicators">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-group">
+                                <span class="avatar"><i class="fas fa-user"></i></span>
+                                <span class="avatar"><i class="fas fa-user"></i></span>
+                                <span class="avatar"><i class="fas fa-user"></i></span>
+                            </div>
+                            <div class="ms-3">
+                                <strong class="d-block text-heading">500+</strong>
+                                <small class="text-muted">Happy Patients</small>
+                            </div>
                         </div>
-                        <span class="small fw-bold" style="color: var(--text-main);">5.0 (286 reviews)</span>
+                        <div class="vr opacity-10"></div>
+                        <div>
+                            <strong class="d-block text-heading">4.9/5</strong>
+                            <small class="text-muted text-warning"><i class="fas fa-star"></i> Ratings</small>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="1000">
-                    <div class="hero-image-container">
-                        <img src="assets/logo.png" class="hero-main-img" alt="Klinik Interior">
+                <div class="col-lg-6 position-relative mt-5 mt-lg-0" data-aos="zoom-out" data-aos-duration="1200" data-aos-delay="200">
+                    <div class="hero-image-wrapper">
+                        <div class="image-blobs"></div>
+                        <div class="hero-img-box">
+                            <img src="assets/logo.png" class="img-fluid" alt="Klinik Medinura">
+                            <div class="glass-overlay"></div>
+                        </div>
                         
-                        <div class="hero-info-card">
-                            <div class="d-flex align-items-center">
-                                <div class="icon-box bg-primary text-white rounded-3 p-3 me-3"><i class="fas fa-clock fa-lg"></i></div>
-                                <div>
-                                    <small class="d-block" style="color: var(--text-muted);">Opening Hours</small>
-                                    <span class="fw-bold" style="color: var(--text-main);">9:00 AM - 10:00 PM</span>
-                                </div>
+                        <div class="float-card card-1">
+                            <div class="icon-circle bg-blue"><i class="fas fa-user-md"></i></div>
+                            <div>
+                                <h6>Expert Doctors</h6>
+                                <small>Certified Professionals</small>
                             </div>
-                            <div class="d-none d-md-block" style="width: 1px; height: 40px; background: var(--border-color);"></div>
-                            <div class="d-flex align-items-center">
-                                <div class="icon-box bg-warning text-dark rounded-3 p-3 me-3"><i class="fas fa-map-pin fa-lg"></i></div>
-                                <div>
-                                    <small class="d-block" style="color: var(--text-muted);">Location</small>
-                                    <span class="fw-bold" style="color: var(--text-main);">Kajang, Selangor</span>
-                                </div>
+                        </div>
+                        
+                        <div class="float-card card-2">
+                            <div class="icon-circle bg-green"><i class="fas fa-shield-alt"></i></div>
+                            <div>
+                                <h6>Safe & Sterile</h6>
+                                <small>100% Hygenic</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+        
+        <div class="custom-shape-divider-bottom">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </header>
 
-    <section id="services" class="py-5 section-bg">
+    <section id="services" class="section-padding">
         <div class="container">
-            <div class="text-center" data-aos="fade-up">
-                <h2 class="section-title" data-en="Our Services" data-ms="Perkhidmatan Kami">Our Services</h2>
-                <p class="text-muted mb-5">Comprehensive care for every stage of life.</p>
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <span class="sub-title">Our Expertise</span>
+                    <h2 class="section-heading" data-en="Comprehensive Medical Services" data-ms="Perkhidmatan Perubatan Menyeluruh">Comprehensive Medical Services</h2>
+                </div>
             </div>
+            
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-baby"></i></div>
-                        <h5 data-en="Ultrasound (4D/5D)" data-ms="Ultrasound (4D/5D)">Ultrasound (4D/5D)</h5>
-                        <p class="text-muted small mb-0">High-definition prenatal scanning with certified radiologists.</p>
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-baby-carriage"></i></div>
+                        <h4>Ultrasound 4D/5D</h4>
+                        <p>Crystal clear prenatal imaging with our certified sonographers to meet your baby.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-plane-departure"></i></div>
-                        <h5 data-en="Travel Medicine" data-ms="Ubat Perjalanan">Travel Medicine</h5>
-                        <p class="text-muted small mb-0">Vaccinations and kits for Umrah, Hajj & international travel.</p>
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-syringe"></i></div>
+                        <h4>Vaccinations</h4>
+                        <p>Complete immunization schedules for infants, children, and travel requirements.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-heartbeat"></i></div>
-                        <h5 data-en="Health Screening" data-ms="Saringan Kesihatan">Health Screening</h5>
-                        <p class="text-muted small mb-0">Full blood profiles, ECG, and urine analysis packages.</p>
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+                        <h4>Health Screening</h4>
+                        <p>Preventive full-body checkups, blood tests, and ECG heart monitoring.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-cut"></i></div>
-                        <h5 data-en="Circumcision" data-ms="Sunat">Circumcision</h5>
-                        <p class="text-muted small mb-0">Safe, hygienic procedures for children.</p>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-user-md"></i></div>
+                        <h4>General Consultation</h4>
+                        <p>Expert diagnosis and treatment for acute illnesses and chronic conditions.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-syringe"></i></div>
-                        <h5 data-en="Vaccinations" data-ms="Vaksinasi">Vaccinations</h5>
-                        <p class="text-muted small mb-0">Complete immunization schedule for infants and adults.</p>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-procedures"></i></div>
+                        <h4>Minor Surgery</h4>
+                        <p>Safe procedures for wound care, stitching, cyst removal, and circumcision.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
-                 <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="card h-100 p-4 border-0 shadow-sm">
-                        <div class="service-icon"><i class="fas fa-user-md"></i></div>
-                        <h5 data-en="Minor Surgery" data-ms="Pembedahan Kecil">Minor Surgery</h5>
-                        <p class="text-muted small mb-0">Wound care, stitching, and minor procedures.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="health-checker" class="py-5 position-relative section-bg-alt">
-        <div class="container" data-aos="zoom-in">
-            <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <div class="text-center mb-4">
-                        <span class="badge bg-danger bg-opacity-10 text-danger mb-2">Interactive Tool</span>
-                        <h2 class="mb-3" data-en="Fever Symptom Checker" data-ms="Pemeriksa Gejala Demam">Fever Symptom Checker</h2>
-                        <p class="text-muted">Not feeling well? Answer 4 quick questions to get a recommendation.</p>
-                    </div>
-                    
-                    <div class="quiz-container shadow-lg">
-                        <div id="quizContent">
-                            <div class="question-block" id="q1">
-                                <h5 class="mb-4 text-primary">1. What is your current body temperature?</h5>
-                                <div class="quiz-option" onclick="selectOption(1, 0, this)">Below 37.5°C (Normal)</div>
-                                <div class="quiz-option" onclick="selectOption(1, 1, this)">37.5°C - 38.5°C (Mild fever)</div>
-                                <div class="quiz-option" onclick="selectOption(1, 2, this)">38.5°C - 39.5°C (Moderate fever)</div>
-                                <div class="quiz-option" onclick="selectOption(1, 3, this)">Above 39.5°C (High fever)</div>
-                            </div>
-
-                            <div class="question-block" id="q2" style="display:none;">
-                                <h5 class="mb-4 text-primary">2. How long have you had the fever?</h5>
-                                <div class="quiz-option" onclick="selectOption(2, 0, this)">Less than 24 hours</div>
-                                <div class="quiz-option" onclick="selectOption(2, 1, this)">1-3 days</div>
-                                <div class="quiz-option" onclick="selectOption(2, 2, this)">4-7 days</div>
-                                <div class="quiz-option" onclick="selectOption(2, 3, this)">More than 7 days</div>
-                            </div>
-
-                            <div class="question-block" id="q3" style="display:none;">
-                                <h5 class="mb-4 text-primary">3. Additional symptoms?</h5>
-                                <div class="quiz-option" onclick="selectOption(3, 0, this)">Severe headache/body aches</div>
-                                <div class="quiz-option" onclick="selectOption(3, 1, this)">Cough & sore throat</div>
-                                <div class="quiz-option" onclick="selectOption(3, 2, this)">Nausea/Vomiting</div>
-                                <div class="quiz-option" onclick="selectOption(3, 3, this)">Rash or bleeding</div>
-                            </div>
-
-                            <div class="question-block" id="q4" style="display:none;">
-                                <h5 class="mb-4 text-primary">4. Contact with mosquitoes/dengue areas?</h5>
-                                <div class="quiz-option" onclick="selectOption(4, 0, this)">No</div>
-                                <div class="quiz-option" onclick="selectOption(4, 1, this)">Yes, minimal</div>
-                                <div class="quiz-option" onclick="selectOption(4, 2, this)">Yes, frequent</div>
-                            </div>
-
-                            <div id="result" style="display:none;" class="mt-4"></div>
-                            
-                            <div class="text-center mt-4">
-                                <button class="btn btn-outline-primary btn-sm" id="resetBtn" onclick="resetQuiz()" style="display:none;">Start Over</button>
-                            </div>
-                        </div>
+                <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="card-icon"><i class="fas fa-brain"></i></div>
+                        <h4>Mental Wellness</h4>
+                        <p>Confidential consultation for stress, anxiety, and general mental health support.</p>
+                        <a href="#" class="read-more">Learn More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="appointment-form" class="py-5 section-bg">
-        <div class="container" data-aos="fade-up">
-            <h2 class="text-center section-title mb-5">Book Appointment</h2>
-            
-            <div class="row justify-content-center">
-                <div class="col-lg-8 appointment-form-container shadow-lg">
-                    <div class="d-flex justify-content-between mb-5 px-5 position-relative">
-                        <div class="progress-line"></div>
-                        <div class="progress-step active" id="step-1-indicator">
-                            <div class="step-number">1</div>
-                            <p class="small text-center fw-bold mt-2">Service</p>
-                        </div>
-                        <div class="progress-step" id="step-2-indicator">
-                            <div class="step-number">2</div>
-                            <p class="small text-center fw-bold mt-2">Time</p>
-                        </div>
-                        <div class="progress-step" id="step-3-indicator">
-                            <div class="step-number">3</div>
-                            <p class="small text-center fw-bold mt-2">Details</p>
-                        </div>
-                    </div>
-
-                    <div class="form-step active" id="step-1">
-                        <h5 class="mb-4 text-center">Select Department</h5>
-                        <div class="d-grid gap-3">
-                            <label class="quiz-option d-flex align-items-center mb-0">
-                                <input type="radio" name="department" value="General" class="form-check-input me-3" onchange="nextStep(1)">
-                                General Check-up
-                            </label>
-                            <label class="quiz-option d-flex align-items-center mb-0">
-                                <input type="radio" name="department" value="Pediatric" class="form-check-input me-3" onchange="nextStep(1)">
-                                Pediatrics (Kids)
-                            </label>
-                            <label class="quiz-option d-flex align-items-center mb-0">
-                                <input type="radio" name="department" value="Ultrasound" class="form-check-input me-3" onchange="nextStep(1)">
-                                Ultrasound
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-step" id="step-2" style="display:none;">
-                        <h5 class="mb-4 text-center">Preferred Time</h5>
-                        <div class="row g-3">
-                            <div class="col-4">
-                                <label class="quiz-option text-center h-100 d-flex flex-column justify-content-center mb-0">
-                                    <input type="radio" name="time" value="Morning" class="d-none" onchange="nextStep(2)">
-                                    <i class="fas fa-sun text-warning mb-2 fs-4"></i>
-                                    <span>Morning</span>
-                                    <small class="text-muted d-block">9AM - 1PM</small>
-                                </label>
-                            </div>
-                            <div class="col-4">
-                                <label class="quiz-option text-center h-100 d-flex flex-column justify-content-center mb-0">
-                                    <input type="radio" name="time" value="Afternoon" class="d-none" onchange="nextStep(2)">
-                                    <i class="fas fa-cloud-sun text-warning mb-2 fs-4"></i>
-                                    <span>Afternoon</span>
-                                    <small class="text-muted d-block">1PM - 5PM</small>
-                                </label>
-                            </div>
-                            <div class="col-4">
-                                <label class="quiz-option text-center h-100 d-flex flex-column justify-content-center mb-0">
-                                    <input type="radio" name="time" value="Evening" class="d-none" onchange="nextStep(2)">
-                                    <i class="fas fa-moon text-primary mb-2 fs-4"></i>
-                                    <span>Evening</span>
-                                    <small class="text-muted d-block">5PM - 10PM</small>
-                                </label>
-                            </div>
-                        </div>
-                        <button class="btn btn-link text-muted mt-3 w-100" onclick="prevStep(2)">Back</button>
-                    </div>
-
-                    <div class="form-step" id="step-3" style="display:none;">
-                        <h5 class="mb-4 text-center">Your Information</h5>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="name" placeholder="Full Name">
-                        </div>
-                        <div class="mb-3">
-                            <input type="tel" class="form-control" id="phone" placeholder="WhatsApp Number">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" id="notes" rows="3" placeholder="Symptoms / Notes"></textarea>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-outline-secondary px-4" onclick="prevStep(3)">Back</button>
-                            <a href="#" class="btn btn-whatsapp flex-grow-1" onclick="submitAppointmentForm(event)">
-                                Confirm via WhatsApp <i class="fas fa-paper-plane ms-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-5 footer-bg border-top">
+    <section id="health-checker" class="section-padding bg-light-gradient">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-lg-4">
-                    <h5 class="fw-bold mb-3 text-primary">Klinik Medinura</h5>
-                    <p class="text-muted small">Your trusted community healthcare partner in Kajang. Professional care with a family touch.</p>
-                </div>
-                <div class="col-lg-4">
-                    <h6 class="fw-bold mb-3 text-main">Contact</h6>
-                    <ul class="list-unstyled small text-muted">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> No 21-1 (GF), Jalan Sari Niaga, Kajang</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> 010-5120050</li>
-                        <li><i class="fas fa-clock me-2 text-primary"></i> 9AM - 10PM (Daily)</li>
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0" data-aos="fade-right">
+                    <span class="sub-title">AI Assistant</span>
+                    <h2 class="section-heading mb-4">Not Feeling Well? Check Your Symptoms.</h2>
+                    <p class="mb-4 text-muted">Use our smart assessment tool to get a quick recommendation. It takes less than a minute.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle text-primary"></i> Instant Feedback</li>
+                        <li><i class="fas fa-check-circle text-primary"></i> Easy to use</li>
+                        <li><i class="fas fa-check-circle text-primary"></i> 100% Free</li>
                     </ul>
                 </div>
-                <div class="col-lg-4 text-lg-end">
-                    <h6 class="fw-bold mb-3 text-main">Follow Us</h6>
-                    <div class="d-flex gap-3 justify-content-lg-end social-links">
-                         <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
-                         <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                         <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="quiz-interface shadow-lg">
+                        <div class="quiz-header">
+                            <i class="fas fa-robot me-2"></i> Health Assessment
+                        </div>
+                        <div class="quiz-body" id="quizContent">
+                            <div class="quiz-step active" id="q1">
+                                <h5 class="mb-4">1. What is your current body temperature?</h5>
+                                <button class="quiz-btn" onclick="selectOption(1, 0, this)">Normal (< 37.5°C)</button>
+                                <button class="quiz-btn" onclick="selectOption(1, 1, this)">Mild Fever (37.5 - 38.5°C)</button>
+                                <button class="quiz-btn" onclick="selectOption(1, 2, this)">High Fever (> 38.5°C)</button>
+                            </div>
+                            <div class="quiz-step" id="q2">
+                                <h5 class="mb-4">2. Duration of symptoms?</h5>
+                                <button class="quiz-btn" onclick="selectOption(2, 0, this)">< 24 Hours</button>
+                                <button class="quiz-btn" onclick="selectOption(2, 1, this)">1 - 3 Days</button>
+                                <button class="quiz-btn" onclick="selectOption(2, 2, this)">> 3 Days</button>
+                            </div>
+                            <div class="quiz-step" id="q3">
+                                <h5 class="mb-4">3. Any severe pain or difficulty breathing?</h5>
+                                <button class="quiz-btn" onclick="selectOption(3, 2, this)">Yes, Severe</button>
+                                <button class="quiz-btn" onclick="selectOption(3, 1, this)">Mild Discomfort</button>
+                                <button class="quiz-btn" onclick="selectOption(3, 0, this)">No</button>
+                            </div>
+                            
+                            <div class="quiz-result text-center" id="result" style="display:none;">
+                                <div class="result-icon mb-3"></div>
+                                <h4 class="result-title mb-3"></h4>
+                                <p class="result-desc mb-4 text-muted"></p>
+                                <button class="btn btn-primary-gradient btn-sm" onclick="resetQuiz()">Check Again</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-5 pt-4 border-top">
-                <p class="small text-muted mb-0">&copy; 2026 Klinik Medinura. All rights reserved.</p>
+        </div>
+    </section>
+
+    <section id="appointment-form" class="section-padding">
+        <div class="container" data-aos="zoom-in-up">
+            <div class="appointment-card shadow-lg">
+                <div class="row g-0">
+                    <div class="col-lg-5 d-none d-lg-block">
+                        <div class="appointment-sidebar">
+                            <h3>Book Your Visit</h3>
+                            <p>Skip the queue. Secure your slot in 3 easy steps.</p>
+                            <div class="mt-5">
+                                <div class="contact-item">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <span>010-5120050</span>
+                                </div>
+                                <div class="contact-item mt-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Jalan Sari Niaga, Kajang</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="appointment-body">
+                            <div class="wizard-progress">
+                                <div class="step active" id="p1"><span>1</span><small>Service</small></div>
+                                <div class="line"></div>
+                                <div class="step" id="p2"><span>2</span><small>Time</small></div>
+                                <div class="line"></div>
+                                <div class="step" id="p3"><span>3</span><small>Done</small></div>
+                            </div>
+
+                            <div class="wizard-step active" id="step-1">
+                                <h5 class="mb-4">Choose a Service</h5>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <label class="select-box">
+                                            <input type="radio" name="service" value="General Checkup">
+                                            <span class="content"><i class="fas fa-stethoscope"></i> General</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="select-box">
+                                            <input type="radio" name="service" value="Pediatric">
+                                            <span class="content"><i class="fas fa-baby"></i> Kids</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="select-box">
+                                            <input type="radio" name="service" value="Ultrasound">
+                                            <span class="content"><i class="fas fa-wave-square"></i> Ultrasound</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="select-box">
+                                            <input type="radio" name="service" value="Vaccination">
+                                            <span class="content"><i class="fas fa-syringe"></i> Vaccine</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary-gradient mt-4 w-100" onclick="nextStep(1)">Next Step</button>
+                            </div>
+
+                            <div class="wizard-step" id="step-2">
+                                <h5 class="mb-4">Preferred Time</h5>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <label class="time-pill"><input type="radio" name="time" value="Morning"><span>Morning</span></label>
+                                    <label class="time-pill"><input type="radio" name="time" value="Afternoon"><span>Afternoon</span></label>
+                                    <label class="time-pill"><input type="radio" name="time" value="Evening"><span>Evening</span></label>
+                                </div>
+                                <div class="d-flex gap-3 mt-4">
+                                    <button class="btn btn-light w-50" onclick="prevStep(2)">Back</button>
+                                    <button class="btn btn-primary-gradient w-50" onclick="nextStep(2)">Next</button>
+                                </div>
+                            </div>
+
+                            <div class="wizard-step" id="step-3">
+                                <h5 class="mb-4">Your Details</h5>
+                                <input type="text" id="name" class="form-control modern-input mb-3" placeholder="Full Name">
+                                <input type="text" id="phone" class="form-control modern-input mb-3" placeholder="WhatsApp Number">
+                                <div class="d-flex gap-3 mt-4">
+                                    <button class="btn btn-light w-50" onclick="prevStep(3)">Back</button>
+                                    <button class="btn btn-whatsapp w-50" onclick="submitAppointment(event)">
+                                        <i class="fab fa-whatsapp"></i> Send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <h4 class="text-white mb-3">Klinik Medinura</h4>
+                    <p class="text-white-50">Providing trusted healthcare for the community with a modern approach. We care for your family like our own.</p>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h6 class="text-white mb-3">Links</h6>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#doctors">Doctors</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h6 class="text-white mb-3">Legal</h6>
+                    <ul class="list-unstyled text-white-50">
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6 class="text-white mb-3">Contact</h6>
+                    <p class="text-white-50 mb-1">010-5120050</p>
+                    <p class="text-white-50">No 21-1 (GF), Jalan Sari Niaga, Kajang</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top border-white-10 mt-5 pt-4 text-center">
+                <small class="text-white-50">&copy; 2026 Klinik Medinura. All Rights Reserved.</small>
             </div>
         </div>
     </footer>
 
-    <button class="scroll-to-top shadow" id="scrollToTopBtn" onclick="scrollToTop()">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+    <button id="scrollToTopBtn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

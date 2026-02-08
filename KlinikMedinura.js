@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Animation
+    // 1. Init AOS
     if (typeof AOS !== 'undefined') {
         AOS.init({ duration: 800, once: true, offset: 50 });
     }
 
-    // 2. Initialize Theme & Language
+    // 2. Init Theme & Lang
     const savedTheme = localStorage.getItem('theme');
     const savedLang = localStorage.getItem('language') || 'en';
     
@@ -12,15 +12,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.setAttribute('data-theme', 'dark');
         document.getElementById('themeIcon').className = 'fas fa-sun';
     }
-    
     updateLanguageUI(savedLang);
 });
+
+// --- Scroll & Navbar ---
+window.addEventListener('scroll', () => {
+    const navbar = document.querySelector('.navbar');
+    const scrollBtn = document.getElementById('scrollToTopBtn');
+    
+    // Add shadow to navbar on scroll
+    if (window.scrollY > 50) navbar.classList.add('shadow-sm');
+    else navbar.classList.remove('shadow-sm');
+
+    // Show/Hide Scroll Button
+    if (window.scrollY > 300) scrollBtn.style.display = 'flex';
+    else scrollBtn.style.display = 'none';
+});
+
+function scrollToTop(e) {
+    if (e) e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 // --- Theme Toggle ---
 function toggleTheme() {
     const html = document.documentElement;
     const icon = document.getElementById('themeIcon');
-    
     if (html.getAttribute('data-theme') === 'dark') {
         html.removeAttribute('data-theme');
         icon.className = 'fas fa-moon';
@@ -32,21 +49,8 @@ function toggleTheme() {
     }
 }
 
-// --- Navbar Scroll ---
-window.addEventListener('scroll', () => {
-    const btn = document.getElementById('scrollToTopBtn');
-    if (window.scrollY > 200) btn.style.display = 'flex';
-    else btn.style.display = 'none';
-});
-
-function scrollToTop(e) {
-    if (e) e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
 // --- Language Logic ---
 let currentLang = 'en';
-
 function toggleLanguage() {
     currentLang = currentLang === 'en' ? 'ms' : 'en';
     localStorage.setItem('language', currentLang);
@@ -55,104 +59,90 @@ function toggleLanguage() {
 
 function updateLanguageUI(lang) {
     currentLang = lang;
-    const btnText = document.getElementById('langText');
-    if(btnText) btnText.textContent = lang === 'en' ? 'BM' : 'EN';
+    const btn = document.getElementById('langBtn');
+    if(btn) btn.textContent = lang === 'en' ? 'BM' : 'EN';
 
     document.querySelectorAll('[data-en]').forEach(el => {
         const text = el.getAttribute(`data-${lang}`);
-        if (text) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = text;
-            } else {
-                const icon = el.querySelector('i');
-                if (icon) {
-                    el.innerHTML = '';
-                    el.appendChild(icon);
-                    el.append(' ' + text);
-                } else {
-                    el.textContent = text;
-                }
-            }
-        }
+        if (text) el.textContent = text;
     });
 }
 
 // --- Quiz Logic ---
-let quizAnswers = {};
+let quizData = { q1: 0, q2: 0, q3: 0 };
 
-function selectOption(qNum, value, el) {
-    const parent = el.parentElement;
-    parent.querySelectorAll('.quiz-option').forEach(opt => opt.classList.remove('selected'));
-    el.classList.add('selected');
-    quizAnswers[`q${qNum}`] = value;
+function selectOption(qNum, val, btn) {
+    quizData[`q${qNum}`] = val;
+    const currentStep = document.getElementById(`q${qNum}`);
     
-    setTimeout(() => {
-        const nextQ = document.getElementById(`q${qNum + 1}`);
-        if (nextQ) {
-            parent.style.display = 'none';
-            nextQ.style.display = 'block';
-        } else {
-            showResult();
-        }
-    }, 300);
+    // Animate out
+    currentStep.style.display = 'none';
+    
+    if (qNum < 3) {
+        const next = document.getElementById(`q${qNum + 1}`);
+        next.classList.add('active');
+    } else {
+        showResult();
+    }
 }
 
 function showResult() {
-    const score = Object.values(quizAnswers).reduce((a, b) => a + b, 0);
-    const resultDiv = document.getElementById('result');
-    const resetBtn = document.getElementById('resetBtn');
-    
-    document.getElementById('q4').style.display = 'none';
+    const total = quizData.q1 + quizData.q2 + quizData.q3;
+    const resDiv = document.getElementById('result');
+    const title = resDiv.querySelector('.result-title');
+    const desc = resDiv.querySelector('.result-desc');
+    const icon = resDiv.querySelector('.result-icon');
 
-    let msg = '', cls = '';
-    if (score <= 3) {
-        cls = 'alert-success';
-        msg = '<strong>Low Risk:</strong> Rest well and hydrate.';
-    } else if (score <= 7) {
-        cls = 'alert-warning';
-        msg = '<strong>Moderate Risk:</strong> Visit us soon.';
+    resDiv.style.display = 'block';
+
+    if (total <= 2) {
+        title.innerText = "Low Risk";
+        title.className = "result-title text-success";
+        desc.innerText = "It seems like a mild condition. Rest well and hydrate.";
+        icon.innerHTML = '<i class="fas fa-smile text-success fa-3x"></i>';
+    } else if (total <= 5) {
+        title.innerText = "Moderate Risk";
+        title.className = "result-title text-warning";
+        desc.innerText = "Monitor your symptoms closely. If they persist, visit us.";
+        icon.innerHTML = '<i class="fas fa-meh text-warning fa-3x"></i>';
     } else {
-        cls = 'alert-danger';
-        msg = '<strong>High Risk:</strong> Seek immediate help.';
+        title.innerText = "High Risk";
+        title.className = "result-title text-danger";
+        desc.innerText = "Please visit the clinic immediately for a check-up.";
+        icon.innerHTML = '<i class="fas fa-frown text-danger fa-3x"></i>';
     }
-
-    resultDiv.innerHTML = `<div class="alert ${cls}">${msg}</div>`;
-    resultDiv.style.display = 'block';
-    resetBtn.style.display = 'inline-block';
 }
 
 function resetQuiz() {
-    quizAnswers = {};
     document.getElementById('result').style.display = 'none';
-    document.getElementById('resetBtn').style.display = 'none';
-    for(let i=1; i<=4; i++) {
-        const q = document.getElementById(`q${i}`);
-        if(q) q.style.display = 'none';
-    }
-    document.getElementById('q1').style.display = 'block';
-    document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    document.getElementById('q1').classList.add('active');
 }
 
 // --- Appointment Wizard ---
 function nextStep(current) {
-    document.getElementById(`step-${current}`).style.display = 'none';
-    document.getElementById(`step-${current}-indicator`).classList.remove('active');
-    document.getElementById(`step-${current+1}`).style.display = 'block';
-    document.getElementById(`step-${current+1}-indicator`).classList.add('active');
+    document.getElementById(`step-${current}`).classList.remove('active');
+    document.getElementById(`step-${current+1}`).classList.add('active');
+    
+    // Update progress bar
+    document.getElementById(`p${current}`).classList.remove('active');
+    document.getElementById(`p${current}`).classList.add('completed');
+    document.getElementById(`p${current+1}`).classList.add('active');
 }
 
 function prevStep(current) {
-    document.getElementById(`step-${current}`).style.display = 'none';
-    document.getElementById(`step-${current}-indicator`).classList.remove('active');
-    document.getElementById(`step-${current-1}`).style.display = 'block';
-    document.getElementById(`step-${current-1}-indicator`).classList.add('active');
+    document.getElementById(`step-${current}`).classList.remove('active');
+    document.getElementById(`step-${current-1}`).classList.add('active');
+    
+    document.getElementById(`p${current}`).classList.remove('active');
+    document.getElementById(`p${current-1}`).classList.add('active');
 }
 
-function submitAppointmentForm(e) {
+function submitAppointment(e) {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const dept = document.querySelector('input[name="department"]:checked')?.value || 'General';
+    const service = document.querySelector('input[name="service"]:checked')?.value || 'General';
     const time = document.querySelector('input[name="time"]:checked')?.value || 'Anytime';
-    const text = `Hi, I'd like to book an appointment.\nName: ${name}\nService: ${dept}\nTime: ${time}`;
+    const name = document.getElementById('name').value;
+    
+    const text = `Hello! I would like to book an appointment.\nName: ${name}\nService: ${service}\nTime: ${time}`;
     window.open(`https://wa.me/60105120050?text=${encodeURIComponent(text)}`, '_blank');
 }
