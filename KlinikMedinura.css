@@ -54,7 +54,7 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Navigation --- */
 /* Updated to be solid white for logo visibility */
 .navbar {
-    background-color: #ffffff !important;
+    background-color: #69253a91 !important;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     padding: 12px 0;
     transition: all 0.3s ease;
