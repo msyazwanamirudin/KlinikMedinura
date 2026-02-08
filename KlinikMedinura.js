@@ -18,11 +18,12 @@ window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     const scrollBtn = document.getElementById('scrollToTopBtn');
     
+    // Simple shadow toggle since bg is now solid
     if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
+        navbar.classList.add('shadow-lg');
         if(scrollBtn) scrollBtn.style.display = 'flex';
     } else {
-        navbar.classList.remove('scrolled');
+        navbar.classList.remove('shadow-lg');
         if(scrollBtn) scrollBtn.style.display = 'none';
     }
 });
