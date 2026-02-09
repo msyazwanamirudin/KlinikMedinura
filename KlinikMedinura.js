@@ -172,3 +172,39 @@ function submitAppointment(e) {
     const text = `Hello! I would like to book an appointment.\nName: ${name}\nService: ${service}\nTime: ${time}`;
     window.open(`https://wa.me/60105120050?text=${encodeURIComponent(text)}`, '_blank');
 }
+// --- Doctor Filter Logic ---
+function filterDoctors(category) {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.doctor-item');
+
+    // 1. Update Buttons
+    buttons.forEach(btn => {
+        // Remove active class from all
+        btn.classList.remove('active');
+        // Add active to the clicked button (checking attributes to match language support)
+        if (btn.getAttribute('onclick').includes(category)) {
+            btn.classList.add('active');
+        }
+    });
+
+    // 2. Filter Cards
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        
+        // Reset animation for re-triggering
+        card.classList.remove('aos-animate');
+        
+        if (category === 'all' || cardCategory === category) {
+            card.style.display = 'block';
+            // Small timeout to allow display:block to apply before animating opacity
+            setTimeout(() => card.classList.add('aos-animate'), 50);
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // Refresh AOS layout since heights might change
+    setTimeout(() => {
+        if(typeof AOS !== 'undefined') AOS.refresh();
+    }, 100);
+}

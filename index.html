@@ -227,6 +227,97 @@
         </div>
     </section>
 
+    <section id="doctors" class="section-padding">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <span class="sub-title" data-en="Our Team" data-ms="Pasukan Kami">Our Team</span>
+                    <h2 class="section-heading" data-en="Meet Our Specialists" data-ms="Kenali Pakar Kami">Meet Our Specialists</h2>
+                    <p class="text-muted mt-3" data-en="Dedicated professionals committed to your well-being." data-ms="Profesional yang berdedikasi untuk kesejahteraan anda.">Dedicated professionals committed to your well-being.</p>
+                </div>
+            </div>
+
+            <div class="row mb-5" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-12 text-center">
+                    <div class="filter-container">
+                        <button class="filter-btn active" onclick="filterDoctors('all')" data-en="All Doctors" data-ms="Semua Doktor">All Doctors</button>
+                        <button class="filter-btn" onclick="filterDoctors('specialist')" data-en="Specialists" data-ms="Pakar">Specialists</button>
+                        <button class="filter-btn" onclick="filterDoctors('gp')" data-en="General Practitioners" data-ms="Pengamal Am">General Practitioners</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 doctor-grid">
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="specialist" data-aos="fade-up" data-aos-delay="100">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Sarah" class="img-fluid"> <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Sarah Adams</h5>
+                            <span class="badge-role" data-en="Pediatrician" data-ms="Pakar Kanak-kanak">Pediatrician</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Expert in child development and pediatric care with 10 years experience." data-ms="Pakar dalam perkembangan kanak-kanak dan penjagaan pediatrik dengan pengalaman 10 tahun.">Expert in child development and pediatric care with 10 years experience.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="gp" data-aos="fade-up" data-aos-delay="200">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Ahmad" class="img-fluid">
+                            <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Ahmad Razak</h5>
+                            <span class="badge-role" data-en="General Practitioner" data-ms="Pengamal Am">General Practitioner</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Dedicated to family medicine and chronic disease management." data-ms="Berdedikasi untuk perubatan keluarga dan pengurusan penyakit kronik.">Dedicated to family medicine and chronic disease management.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="specialist" data-aos="fade-up" data-aos-delay="300">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Wong" class="img-fluid">
+                            <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Wong Wei</h5>
+                            <span class="badge-role" data-en="Radiologist" data-ms="Ahli Radiologi">Radiologist</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Specialist in ultrasound imaging and diagnostic radiology." data-ms="Pakar dalam pengimejan ultrasound dan radiologi diagnostik.">Specialist in ultrasound imaging and diagnostic radiology.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="gp" data-aos="fade-up" data-aos-delay="400">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Priya" class="img-fluid">
+                            <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Priya K.</h5>
+                            <span class="badge-role" data-en="General Practitioner" data-ms="Pengamal Am">General Practitioner</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Focuses on women's health and preventive wellness." data-ms="Menumpukan pada kesihatan wanita dan kesejahteraan pencegahan.">Focuses on women's health and preventive wellness.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="appointment-form" class="section-padding">
         <div class="container" data-aos="zoom-in-up">
             <div class="appointment-card shadow-lg">
