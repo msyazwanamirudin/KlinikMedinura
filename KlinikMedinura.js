@@ -145,14 +145,51 @@ function resetQuiz() {
     document.getElementById('q1').classList.add('active');
 }
 
-// --- Appointment Wizard ---
+// ... (Keep your AOS, Theme, Navbar, Language, and Quiz logic above this) ...
+
+// --- Appointment Wizard with Validation ---
+
 function nextStep(current) {
-    document.getElementById(`step-${current}`).classList.remove('active');
-    document.getElementById(`step-${current+1}`).classList.add('active');
-    
-    document.getElementById(`p${current}`).classList.remove('active');
-    document.getElementById(`p${current}`).classList.add('completed');
-    document.getElementById(`p${current+1}`).classList.add('active');
+    let isValid = false;
+    let currentContainer = document.getElementById(`step-${current}`);
+
+    // Remove previous error styles
+    removeErrors(currentContainer);
+
+    // Validate Step 1: Service Selection
+    if (current === 1) {
+        const service = document.querySelector('input[name="service"]:checked');
+        if (service) {
+            isValid = true;
+        } else {
+            // Shake the options container if nothing selected
+            const options = currentContainer.querySelectorAll('.select-box .content');
+            options.forEach(opt => opt.classList.add('input-error'));
+            setTimeout(() => removeErrors(currentContainer), 500); // Remove class after animation
+        }
+    } 
+    // Validate Step 2: Time Selection
+    else if (current === 2) {
+        const time = document.querySelector('input[name="time"]:checked');
+        if (time) {
+            isValid = true;
+        } else {
+            const options = currentContainer.querySelectorAll('.time-pill span');
+            options.forEach(opt => opt.classList.add('input-error'));
+            setTimeout(() => removeErrors(currentContainer), 500);
+        }
+    }
+
+    // Only proceed if valid
+    if (isValid) {
+        document.getElementById(`step-${current}`).classList.remove('active');
+        document.getElementById(`step-${current+1}`).classList.add('active');
+        
+        // Update progress bar
+        document.getElementById(`p${current}`).classList.remove('active');
+        document.getElementById(`p${current}`).classList.add('completed');
+        document.getElementById(`p${current+1}`).classList.add('active');
+    }
 }
 
 function prevStep(current) {
@@ -165,12 +202,47 @@ function prevStep(current) {
 
 function submitAppointment(e) {
     e.preventDefault();
-    const service = document.querySelector('input[name="service"]:checked')?.value || 'General';
-    const time = document.querySelector('input[name="time"]:checked')?.value || 'Anytime';
-    const name = document.getElementById('name').value;
     
-    const text = `Hello! I would like to book an appointment.\nName: ${name}\nService: ${service}\nTime: ${time}`;
-    window.open(`https://wa.me/60105120050?text=${encodeURIComponent(text)}`, '_blank');
+    // Validate Inputs
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    let isValid = true;
+
+    // Reset styles
+    nameInput.classList.remove('input-error');
+    phoneInput.classList.remove('input-error');
+
+    if (!nameInput.value.trim()) {
+        nameInput.classList.add('input-error');
+        isValid = false;
+    }
+    if (!phoneInput.value.trim()) {
+        phoneInput.classList.add('input-error');
+        isValid = false;
+    }
+
+    if (isValid) {
+        const service = document.querySelector('input[name="service"]:checked')?.value;
+        const time = document.querySelector('input[name="time"]:checked')?.value;
+        const name = nameInput.value;
+        const phone = phoneInput.value;
+        
+        // Format for WhatsApp (URL Encoded)
+        const text = `Hello Klinik Medinura!%0AI would like to book an appointment.%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A🏥 *Service:* ${service}%0A🕒 *Time:* ${time}`;
+        
+        window.open(`https://wa.me/60105120050?text=${text}`, '_blank');
+    } else {
+        // Remove error class after animation
+        setTimeout(() => {
+            nameInput.classList.remove('input-error');
+            phoneInput.classList.remove('input-error');
+        }, 500);
+    }
+}
+
+// Helper to clean up error classes
+function removeErrors(container) {
+    container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
 // --- Doctor Filter Logic ---
 function filterDoctors(category) {
