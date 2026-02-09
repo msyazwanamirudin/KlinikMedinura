@@ -105,9 +105,6 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Hero Section --- */
 .hero-section {
     position: relative;
-    /* Massive top padding to push content to the center-middle */
-    padding-top: 140px !important; 
-    padding-bottom: 100px;
     background: linear-gradient(180deg, #FFF5F7 0%, #FFFFFF 100%); /* Soft Pink to White Fade */
     min-height: 100vh; /* Ensure it takes up full screen height */
 }
