@@ -172,34 +172,6 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 400px;
     display: flex; align-items: center; justify-content: center;
 }
-
-.float-card {
-    position: absolute;
-    background: var(--white);
-    padding: 15px 20px;
-    border-radius: 16px;
-    box-shadow: var(--shadow-soft);
-    display: flex; align-items: center; gap: 15px;
-    z-index: 3;
-    animation: float 6s ease-in-out infinite;
-}
-.float-card h6 { margin: 0; color: var(--text-heading); }
-.float-card small { color: var(--text-body); }
-
-.card-1 { top: 10%; left: -20px; }
-.card-2 { bottom: 10%; right: -20px; animation-delay: 2s; }
-
-.icon-circle {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #fff;
-}
-.bg-blue { background: #4facfe; }
-.bg-green { background: #00f260; }
-
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
 /* Wave Divider */
 .custom-shape-divider-bottom {
     position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0;
