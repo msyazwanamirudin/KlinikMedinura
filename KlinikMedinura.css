@@ -14,7 +14,7 @@
     --text-body: #555555;
     --text-muted: #64748B;
     --bg-body: #FDFDFD;
-    --bg-light: #FFF9FA; /* Subtle pink tint */
+    --bg-light: #FFF9FA; 
     --white: #ffffff;
     
     /* UI Elements */
@@ -29,9 +29,9 @@
     --bg-body: #0a0a0a;
     --bg-light: #141414;
     --text-heading: #f0f0f0;
-    --text-body: #d4d4d4; /* Lighter body text */
-    --text-muted: #94A3B8; /* Fix: Make muted text readable in dark mode */
-    --white: #1f1f1f; /* Dark card bg */
+    --text-body: #e2e2e2;
+    --text-muted: #94A3B8; /* Readable Light Grey for descriptions */
+    --white: #1f1f1f; /* Dark card background */
     --border-color: #333;
     --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.5);
     --primary-soft: rgba(139, 30, 63, 0.3);
@@ -246,7 +246,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .doctor-card:hover .doctor-img-box img { transform: scale(1.1); }
 
-/* Badge Readability Fix */
+/* --- BADGE READABILITY FIX FOR DARK MODE --- */
 .badge-role {
     font-size: 0.75rem;
     font-weight: 700;
@@ -411,44 +411,12 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--bg-body);
     border: 1px solid var(--border-color);
     padding: 15px; border-radius: 12px;
-    color: var(--text-heading); /* Ensures text is white in dark mode */
+    color: var(--text-heading);
 }
-.modern-input::placeholder { color: var(--text-muted); opacity: 0.6; }
+.modern-input::placeholder { color: var(--text-body); opacity: 0.6; }
 .modern-input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px var(--primary-soft);
-}
-
-/* --- BUTTON FIX: Send Button Visibility --- */
-.btn-whatsapp,
-.btn-whatsapp span,
-.btn-whatsapp i {
-    background-color: #25D366 !important;
-    color: #ffffff !important;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    padding: 12px 30px;
-}
-
-.btn-whatsapp:hover {
-    background-color: #1ebc57 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
-}
-
-/* --- Validation Error Animation --- */
-.input-error {
-    border-color: #dc3545 !important;
-    background-color: rgba(220, 53, 69, 0.05);
-    animation: shake 0.4s ease-in-out;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
 }
 
 .wizard-step { display: none; }
