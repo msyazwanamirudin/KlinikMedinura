@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Init AOS
+    // 1. Init Animation
     if (typeof AOS !== 'undefined') {
         AOS.init({ duration: 800, once: true, offset: 50 });
     }
@@ -13,18 +13,46 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('themeIcon').className = 'fas fa-sun';
     }
     updateLanguageUI(savedLang);
+
+    // 3. Init ScrollSpy (THIS FIXES THE NAV PILL)
+    initScrollSpy();
 });
 
-// --- Scroll & Navbar ---
+// --- ScrollSpy Logic ---
+function initScrollSpy() {
+    const sections = document.querySelectorAll('section, header');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            // 100px offset to trigger highlight slightly before the section hits top
+            if (window.scrollY >= (sectionTop - 120)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            // Check if link href matches the current section ID
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
+
+// --- Scroll & Navbar Styles ---
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     const scrollBtn = document.getElementById('scrollToTopBtn');
     
-    // Add shadow to navbar on scroll
     if (window.scrollY > 50) navbar.classList.add('shadow-sm');
     else navbar.classList.remove('shadow-sm');
 
-    // Show/Hide Scroll Button
     if (window.scrollY > 300) scrollBtn.style.display = 'flex';
     else scrollBtn.style.display = 'none';
 });
@@ -75,7 +103,6 @@ function selectOption(qNum, val, btn) {
     quizData[`q${qNum}`] = val;
     const currentStep = document.getElementById(`q${qNum}`);
     
-    // Animate out
     currentStep.style.display = 'none';
     
     if (qNum < 3) {
@@ -123,7 +150,6 @@ function nextStep(current) {
     document.getElementById(`step-${current}`).classList.remove('active');
     document.getElementById(`step-${current+1}`).classList.add('active');
     
-    // Update progress bar
     document.getElementById(`p${current}`).classList.remove('active');
     document.getElementById(`p${current}`).classList.add('completed');
     document.getElementById(`p${current+1}`).classList.add('active');

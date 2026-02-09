@@ -12,6 +12,7 @@
     /* Neutrals */
     --text-heading: #1a1a1a;
     --text-body: #555555;
+    --text-muted: #64748B;
     --bg-body: #FDFDFD;
     --bg-light: #FFF9FA; /* Subtle pink tint */
     --white: #ffffff;
@@ -21,22 +22,28 @@
     --radius-md: 16px;
     --shadow-soft: 0 10px 40px -10px rgba(139, 30, 63, 0.1);
     --shadow-hover: 0 20px 50px -10px rgba(139, 30, 63, 0.2);
+    --border-color: #E2E8F0;
 }
 
 [data-theme="dark"] {
     --bg-body: #0a0a0a;
     --bg-light: #141414;
     --text-heading: #f0f0f0;
-    --text-body: #a0a0a0;
+    --text-body: #d4d4d4; /* Lighter body text */
+    --text-muted: #94A3B8; /* Fix: Make muted text readable in dark mode */
     --white: #1f1f1f; /* Dark card bg */
     --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.5);
     --primary-soft: rgba(139, 30, 63, 0.3);
+    --border-color: #333;
 }
 
 /* Base Styles */
 body {
-    padding-top: 80px; /* Pushes everything down to account for the fixed navbar */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-body);
+    background-color: var(--bg-body);
     overflow-x: hidden;
+    padding-top: 80px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -47,26 +54,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- Navbar Upgrade --- */
 .navbar {
-    background-color: #ffffff !important; /* Force Solid White - Cleanest look */
-    height: 80px; /* Fixed height to stop it from being too big */
-    padding: 0 !important; /* Reset padding to let flexbox handle spacing */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Soft shadow for separation */
+    background-color: #ffffff !important;
+    height: 80px;
+    padding: 0 !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
-.navbar .container-fluid {
-    height: 100%; /* Fill the navbar height */
-}
+.navbar .container-fluid { height: 100%; }
 
 [data-theme="dark"] .navbar {
-    background: rgba(10, 10, 10, 0.9);
+    background: rgba(10, 10, 10, 0.9) !important;
 }
 
 .logo-pill {
-    background: transparent; /* Remove pill background if it adds clutter */
+    background: transparent;
     padding: 0;
     margin-right: 10px;
 }
 .navbar-logo {
-    height: 45px; /* Perfect size - visible but not huge */
+    height: 45px;
     width: auto;
 }
 
@@ -105,21 +110,22 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Hero Section --- */
 .hero-section {
     position: relative;
-    background: linear-gradient(180deg, #FFF5F7 0%, #FFFFFF 100%); /* Soft Pink to White Fade */
-    min-height: 100vh; /* Ensure it takes up full screen height */
+    padding-top: 140px !important; 
+    padding-bottom: 100px;
+    background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-body) 100%);
+    min-height: 100vh;
 }
 
-.hero-text-col {
-    padding-top: 20px;
-}
-/* Update this specific class in your CSS to restore the gradient text */
+.hero-text-col { padding-top: 20px; }
+
 .hero-heading {
+    margin-top: 20px;
     line-height: 1.1;
     background: linear-gradient(135deg, var(--text-heading) 0%, var(--primary) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block; /* Helps prevent cutting off letters */
+    display: inline-block;
 }
 
 .badge-premium {
@@ -132,7 +138,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.9rem;
 }
 
-/* Buttons */
 .btn-primary-gradient {
     background: var(--gradient-primary);
     color: #fff;
@@ -143,10 +148,8 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 10px 25px -5px rgba(139, 30, 63, 0.4);
     transition: transform 0.3s;
 }
-
 .btn-primary-gradient:hover {
-    transform: translateY(-3px);
-    color: #fff;
+    transform: translateY(-3px); color: #fff;
     box-shadow: 0 15px 30px -5px rgba(139, 30, 63, 0.6);
 }
 
@@ -158,30 +161,20 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     transition: all 0.3s;
 }
+.btn-outline-premium:hover { background: var(--primary); color: #fff; }
 
-.btn-outline-premium:hover {
-    background: var(--primary);
-    color: #fff;
-}
-
-/* Hero Image & Floating Cards */
-.hero-image-wrapper {
-    position: relative;
-    padding: 20px;
-}
-
+.hero-image-wrapper { position: relative; padding: 20px; }
 .hero-img-box {
     position: relative;
     border-radius: 40px;
     overflow: hidden;
     box-shadow: var(--shadow-hover);
     border: 8px solid var(--white);
-    background: #e0e0e0; /* Placeholder grey */
+    background: #e0e0e0;
     min-height: 400px;
     display: flex; align-items: center; justify-content: center;
 }
 
-/* Floating Cards */
 .float-card {
     position: absolute;
     background: var(--white);
@@ -192,6 +185,8 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 3;
     animation: float 6s ease-in-out infinite;
 }
+.float-card h6 { margin: 0; color: var(--text-heading); }
+.float-card small { color: var(--text-body); }
 
 .card-1 { top: 10%; left: -20px; }
 .card-2 { bottom: 10%; right: -20px; animation-delay: 2s; }
@@ -219,13 +214,8 @@ h1, h2, h3, h4, h5, h6 {
 /* --- Services --- */
 .section-padding { padding: 100px 0; }
 .sub-title {
-    display: block;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 10px;
+    display: block; text-transform: uppercase; letter-spacing: 2px;
+    font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px;
 }
 
 .service-card {
@@ -235,34 +225,27 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: var(--shadow-soft);
     transition: all 0.3s;
     height: 100%;
-    border: 1px solid transparent;
+    border: 1px solid var(--border-color);
 }
-
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: var(--shadow-hover);
     border-color: var(--primary-soft);
 }
+.service-card h4 { color: var(--text-heading); }
+.service-card p { color: var(--text-body); }
 
 .card-icon {
-    font-size: 2.5rem;
-    color: var(--primary);
-    margin-bottom: 20px;
-    background: var(--primary-soft);
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;
+    background: var(--primary-soft); width: 80px; height: 80px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
 }
-
 .read-more {
-    color: var(--primary);
-    font-weight: 700;
-    text-decoration: none;
-    margin-top: 15px;
-    display: inline-block;
+    color: var(--primary); font-weight: 700; text-decoration: none;
+    margin-top: 15px; display: inline-block;
 }
 
-/* --- Health Checker (Quiz) --- */
+/* --- Health Checker --- */
 .bg-light-gradient {
     background: linear-gradient(180deg, var(--bg-body) 0%, var(--bg-light) 100%);
 }
@@ -271,35 +254,29 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--white);
     border-radius: 30px;
     overflow: hidden;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid var(--border-color);
 }
-
 .quiz-header {
     background: var(--gradient-primary);
-    color: #fff;
-    padding: 20px;
-    font-weight: 700;
+    color: #fff; padding: 20px; font-weight: 700;
 }
-
 .quiz-body { padding: 40px; }
 
 .quiz-btn {
     display: block; width: 100%;
     padding: 15px; margin-bottom: 10px;
     background: var(--bg-body);
-    border: 2px solid rgba(0,0,0,0.05);
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     text-align: left;
     font-weight: 600;
     color: var(--text-heading);
     transition: all 0.2s;
 }
-
 .quiz-btn:hover { border-color: var(--primary); background: var(--primary-soft); }
 
 .quiz-step { display: none; animation: fadeIn 0.4s ease; }
 .quiz-step.active { display: block; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- Appointment Wizard --- */
@@ -307,14 +284,14 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--white);
     border-radius: 30px;
     overflow: hidden;
+    border: 1px solid var(--border-color);
 }
-
 .appointment-sidebar {
     background: var(--gradient-primary);
-    height: 100%;
-    padding: 60px 40px;
-    color: #fff;
+    height: 100%; padding: 60px 40px; color: #fff;
 }
+.appointment-sidebar h3 { color: #fff; }
+.appointment-sidebar p, .appointment-sidebar span { color: rgba(255,255,255,0.8); }
 
 .appointment-body { padding: 60px 40px; }
 
@@ -322,7 +299,6 @@ h1, h2, h3, h4, h5, h6 {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 40px; position: relative;
 }
-
 .wizard-progress .step {
     width: 40px; height: 40px;
     background: var(--bg-body);
@@ -330,32 +306,25 @@ h1, h2, h3, h4, h5, h6 {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     font-weight: 700; color: var(--text-heading);
     z-index: 2; position: relative;
-    border: 2px solid #ddd;
+    border: 2px solid var(--border-color);
 }
-
 .wizard-progress .step small {
     position: absolute; bottom: -25px; width: 60px; text-align: center;
     font-size: 0.7rem; color: var(--text-body);
 }
-
 .wizard-progress .step.active {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
+    background: var(--primary); color: #fff; border-color: var(--primary);
 }
+.wizard-progress .line { flex-grow: 1; height: 2px; background: var(--border-color); margin: 0 10px; }
 
-.wizard-progress .line {
-    flex-grow: 1; height: 2px; background: #ddd; margin: 0 10px;
-}
-
-.select-box {
-    display: block; cursor: pointer;
-}
+.select-box { display: block; cursor: pointer; }
 .select-box input { display: none; }
 .select-box .content {
     display: flex; flex-direction: column; align-items: center; gap: 10px;
     padding: 20px;
-    border: 2px solid #eee;
+    border: 2px solid var(--border-color);
+    background: var(--bg-body);
+    color: var(--text-heading);
     border-radius: 12px;
     font-weight: 600;
     transition: all 0.2s;
@@ -370,7 +339,10 @@ h1, h2, h3, h4, h5, h6 {
 .time-pill input { display: none; }
 .time-pill span {
     display: block; padding: 10px; text-align: center;
-    border: 1px solid #eee; border-radius: 50px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-body);
+    color: var(--text-heading);
+    border-radius: 50px;
     transition: all 0.2s;
 }
 .time-pill input:checked + span {
@@ -379,9 +351,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .modern-input {
     background: var(--bg-body);
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     padding: 15px; border-radius: 12px;
+    color: var(--text-heading);
 }
+.modern-input::placeholder { color: var(--text-body); opacity: 0.6; }
 .modern-input:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px var(--primary-soft);
@@ -392,23 +366,17 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- Footer --- */
 .footer-section {
-    background: #111;
-    color: #aaa;
-    padding: 80px 0 30px;
+    background: #111; color: #aaa; padding: 80px 0 30px;
 }
-
+.footer-section h4, .footer-section h6 { color: #fff; }
 .social-icons a {
     display: inline-flex; width: 40px; height: 40px;
-    background: rgba(255,255,255,0.1);
-    color: #fff;
+    background: rgba(255,255,255,0.1); color: #fff;
     align-items: center; justify-content: center;
-    border-radius: 50%;
-    margin-right: 10px;
-    transition: all 0.3s;
+    border-radius: 50%; margin-right: 10px; transition: all 0.3s;
 }
 .social-icons a:hover { background: var(--primary); transform: translateY(-3px); }
 
-/* Scroll Top */
 #scrollToTopBtn {
     position: fixed; bottom: 30px; right: 30px;
     width: 50px; height: 50px;
