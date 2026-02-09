@@ -14,7 +14,7 @@
     --text-body: #555555;
     --text-muted: #64748B;
     --bg-body: #FDFDFD;
-    --bg-light: #FFF9FA; /* Subtle pink tint */
+    --bg-light: #FFF9FA; 
     --white: #ffffff;
     
     /* UI Elements */
@@ -29,12 +29,12 @@
     --bg-body: #0a0a0a;
     --bg-light: #141414;
     --text-heading: #f0f0f0;
-    --text-body: #d4d4d4; /* Lighter body text */
-    --text-muted: #94A3B8; /* Fix: Make muted text readable in dark mode */
-    --white: #1f1f1f; /* Dark card bg */
+    --text-body: #e2e2e2;
+    --text-muted: #94A3B8; /* Readable Light Grey for descriptions */
+    --white: #1f1f1f; /* Dark card background */
+    --border-color: #333;
     --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.5);
     --primary-soft: rgba(139, 30, 63, 0.3);
-    --border-color: #333;
 }
 
 /* Base Styles */
@@ -44,6 +44,7 @@ body {
     background-color: var(--bg-body);
     overflow-x: hidden;
     padding-top: 80px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -52,7 +53,12 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: -0.5px;
 }
 
-/* --- Navbar Upgrade --- */
+/* Ensure Bootstrap text-muted uses our variable */
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* --- Navbar --- */
 .navbar {
     background-color: #ffffff !important;
     height: 80px;
@@ -62,18 +68,12 @@ h1, h2, h3, h4, h5, h6 {
 .navbar .container-fluid { height: 100%; }
 
 [data-theme="dark"] .navbar {
-    background: rgba(10, 10, 10, 0.9) !important;
+    background: rgba(20, 20, 20, 0.95) !important;
+    border-bottom: 1px solid #333;
 }
 
-.logo-pill {
-    background: transparent;
-    padding: 0;
-    margin-right: 10px;
-}
-.navbar-logo {
-    height: 45px;
-    width: auto;
-}
+.logo-pill { background: transparent; padding: 0; margin-right: 10px; }
+.navbar-logo { height: 45px; width: auto; }
 
 .brand-text {
     font-size: 1.25rem;
@@ -104,12 +104,13 @@ h1, h2, h3, h4, h5, h6 {
     display: flex; align-items: center; justify-content: center;
     transition: all 0.3s;
 }
-
 .btn-icon-toggle:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 
 /* --- Hero Section --- */
 .hero-section {
     position: relative;
+    padding-top: 140px !important; 
+    padding-bottom: 100px;
     background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-body) 100%);
     min-height: 100vh;
 }
@@ -172,6 +173,34 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 400px;
     display: flex; align-items: center; justify-content: center;
 }
+
+.float-card {
+    position: absolute;
+    background: var(--white);
+    padding: 15px 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    display: flex; align-items: center; gap: 15px;
+    z-index: 3;
+    animation: float 6s ease-in-out infinite;
+}
+.float-card h6 { margin: 0; color: var(--text-heading); }
+.float-card small { color: var(--text-body); }
+
+.card-1 { top: 10%; left: -20px; }
+.card-2 { bottom: 10%; right: -20px; animation-delay: 2s; }
+
+.icon-circle {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+}
+.bg-blue { background: #4facfe; }
+.bg-green { background: #00f260; }
+
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
 /* Wave Divider */
 .custom-shape-divider-bottom {
     position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0;
@@ -181,14 +210,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .shape-fill { fill: var(--bg-body); }
 
-/* --- Services --- */
+/* --- Services & Doctors --- */
 .section-padding { padding: 100px 0; }
 .sub-title {
     display: block; text-transform: uppercase; letter-spacing: 2px;
     font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px;
 }
 
-.service-card {
+.service-card, .doctor-card {
     background: var(--white);
     padding: 40px 30px;
     border-radius: var(--radius-lg);
@@ -197,13 +226,72 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     border: 1px solid var(--border-color);
 }
-.service-card:hover {
+.service-card:hover, .doctor-card:hover {
     transform: translateY(-10px);
     box-shadow: var(--shadow-hover);
     border-color: var(--primary-soft);
 }
-.service-card h4 { color: var(--text-heading); }
-.service-card p { color: var(--text-body); }
+.service-card h4, .doctor-info h5 { color: var(--text-heading); }
+.service-card p, .doctor-info p { color: var(--text-muted); }
+
+/* Doctor Specifics */
+.doctor-card { padding: 0; overflow: hidden; }
+.doctor-info { padding: 25px; text-align: center; }
+.doctor-img-box {
+    position: relative; height: 250px; overflow: hidden; background: #f0f0f0;
+    display: flex; align-items: center; justify-content: center;
+}
+.doctor-img-box img {
+    width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+}
+.doctor-card:hover .doctor-img-box img { transform: scale(1.1); }
+
+/* --- BADGE READABILITY FIX FOR DARK MODE --- */
+.badge-role {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background: var(--primary-soft);
+    padding: 5px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+[data-theme="dark"] .badge-role {
+    color: #ffdae0; /* Bright Pink-White Text */
+    background: rgba(139, 30, 63, 0.6); /* Darker background for contrast */
+}
+
+/* Social Overlay */
+.social-overlay {
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(139, 30, 63, 0.8);
+    display: flex; align-items: center; justify-content: center; gap: 15px;
+    opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(2px);
+}
+.doctor-card:hover .social-overlay { opacity: 1; }
+.social-overlay a {
+    width: 40px; height: 40px; background: #fff; color: var(--primary);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    text-decoration: none; transition: transform 0.2s;
+}
+.social-overlay a:hover { transform: scale(1.1); }
+
+/* Filter Buttons */
+.filter-container {
+    display: inline-flex; background: var(--bg-light); padding: 5px;
+    border-radius: 50px; border: 1px solid var(--border-color);
+}
+.filter-btn {
+    background: transparent; border: none; padding: 10px 25px;
+    border-radius: 50px; font-weight: 600; color: var(--text-body);
+    transition: all 0.3s ease; cursor: pointer;
+}
+.filter-btn.active, .filter-btn:hover {
+    background: var(--primary); color: #fff; box-shadow: 0 4px 15px rgba(139, 30, 63, 0.2);
+}
 
 .card-icon {
     font-size: 2.5rem; color: var(--primary); margin-bottom: 20px;
@@ -249,114 +337,6 @@ h1, h2, h3, h4, h5, h6 {
 .quiz-step.active { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.filter-container {
-    display: inline-flex;
-    background: var(--bg-light);
-    padding: 5px;
-    border-radius: 50px;
-    border: 1px solid var(--border-color);
-}
-
-.filter-btn {
-    background: transparent;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 50px;
-    font-weight: 600;
-    color: var(--text-body);
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.filter-btn.active, .filter-btn:hover {
-    background: var(--primary);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(139, 30, 63, 0.2);
-}
-
-.doctor-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%;
-}
-
-.doctor-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-soft);
-}
-
-.doctor-img-box {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.doctor-img-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Use 'contain' if using logos, 'cover' for real photos */
-    transition: transform 0.5s ease;
-}
-
-.doctor-card:hover .doctor-img-box img {
-    transform: scale(1.1);
-}
-
-/* Social Icons Overlay */
-.social-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(139, 30, 63, 0.7); /* Primary color fade */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    backdrop-filter: blur(2px);
-}
-
-.doctor-card:hover .social-overlay {
-    opacity: 1;
-}
-
-.social-overlay a {
-    width: 40px; height: 40px;
-    background: #fff;
-    color: var(--primary);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none;
-    transition: transform 0.2s;
-}
-
-.social-overlay a:hover {
-    transform: scale(1.1);
-}
-
-.doctor-info {
-    padding: 25px;
-    text-align: center;
-}
-
-.badge-role {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--primary);
-    background: var(--primary-soft);
-    padding: 5px 12px;
-    border-radius: 20px;
-}
 /* --- Appointment Wizard --- */
 .appointment-card {
     background: var(--white);
