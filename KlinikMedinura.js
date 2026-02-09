@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateLanguageUI(savedLang);
 
-    // 3. Init ScrollSpy (THIS FIXES THE NAV PILL)
+    // 3. Init ScrollSpy (Fixes active nav link)
     initScrollSpy();
 });
 
@@ -28,8 +28,6 @@ function initScrollSpy() {
         
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            // 100px offset to trigger highlight slightly before the section hits top
             if (window.scrollY >= (sectionTop - 120)) {
                 current = section.getAttribute('id');
             }
@@ -37,7 +35,6 @@ function initScrollSpy() {
 
         navLinks.forEach(link => {
             link.classList.remove('active');
-            // Check if link href matches the current section ID
             if (link.getAttribute('href') === `#${current}`) {
                 link.classList.add('active');
             }
@@ -45,7 +42,7 @@ function initScrollSpy() {
     });
 }
 
-// --- Scroll & Navbar Styles ---
+// --- Navbar Scroll ---
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     const scrollBtn = document.getElementById('scrollToTopBtn');
@@ -96,17 +93,50 @@ function updateLanguageUI(lang) {
     });
 }
 
-// --- Quiz Logic ---
-let quizData = { q1: 0, q2: 0, q3: 0 };
+// --- Doctor Filter Logic ---
+function filterDoctors(category) {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.doctor-item');
+
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('onclick').includes(category)) {
+            btn.classList.add('active');
+        }
+    });
+
+    cards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        card.classList.remove('aos-animate');
+        
+        if (category === 'all' || cardCategory === category) {
+            card.style.display = 'block';
+            setTimeout(() => card.classList.add('aos-animate'), 50);
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    setTimeout(() => {
+        if(typeof AOS !== 'undefined') AOS.refresh();
+    }, 100);
+}
+
+// --- UPDATED QUIZ LOGIC (Infinite Retry Fix) ---
+let quizData = { q1: 0, q2: 0, q3: 0, q4: 0 };
 
 function selectOption(qNum, val, btn) {
     quizData[`q${qNum}`] = val;
     const currentStep = document.getElementById(`q${qNum}`);
     
+    // Hide current step
     currentStep.style.display = 'none';
+    currentStep.classList.remove('active');
     
-    if (qNum < 3) {
+    // Show next step or result
+    if (qNum < 4) { // Updated to handle 4 questions
         const next = document.getElementById(`q${qNum + 1}`);
+        next.style.display = 'block';
         next.classList.add('active');
     } else {
         showResult();
@@ -114,7 +144,7 @@ function selectOption(qNum, val, btn) {
 }
 
 function showResult() {
-    const total = quizData.q1 + quizData.q2 + quizData.q3;
+    const total = Object.values(quizData).reduce((a, b) => a + b, 0);
     const resDiv = document.getElementById('result');
     const title = resDiv.querySelector('.result-title');
     const desc = resDiv.querySelector('.result-desc');
@@ -122,12 +152,12 @@ function showResult() {
 
     resDiv.style.display = 'block';
 
-    if (total <= 2) {
+    if (total <= 3) {
         title.innerText = "Low Risk";
         title.className = "result-title text-success";
         desc.innerText = "It seems like a mild condition. Rest well and hydrate.";
         icon.innerHTML = '<i class="fas fa-smile text-success fa-3x"></i>';
-    } else if (total <= 5) {
+    } else if (total <= 7) {
         title.innerText = "Moderate Risk";
         title.className = "result-title text-warning";
         desc.innerText = "Monitor your symptoms closely. If they persist, visit us.";
@@ -141,37 +171,47 @@ function showResult() {
 }
 
 function resetQuiz() {
+    // 1. Hide Result
     document.getElementById('result').style.display = 'none';
-    document.getElementById('q1').classList.add('active');
+    
+    // 2. Reset all questions visibility
+    for(let i=1; i<=4; i++) {
+        const q = document.getElementById(`q${i}`);
+        if(q) {
+            q.style.display = 'none';
+            q.classList.remove('active');
+        }
+    }
+
+    // 3. Show First Question
+    const q1 = document.getElementById('q1');
+    q1.style.display = 'block';
+    q1.classList.add('active');
+    
+    // 4. Clear Data
+    quizData = { q1: 0, q2: 0, q3: 0, q4: 0 };
 }
 
-// ... (Keep your AOS, Theme, Navbar, Language, and Quiz logic above this) ...
-
 // --- Appointment Wizard with Validation ---
-
 function nextStep(current) {
     let isValid = false;
     let currentContainer = document.getElementById(`step-${current}`);
 
-    // Remove previous error styles
     removeErrors(currentContainer);
 
-    // Validate Step 1: Service Selection
+    // Step 1 Validation
     if (current === 1) {
-        const service = document.querySelector('input[name="service"]:checked');
-        if (service) {
+        if (document.querySelector('input[name="service"]:checked')) {
             isValid = true;
         } else {
-            // Shake the options container if nothing selected
             const options = currentContainer.querySelectorAll('.select-box .content');
             options.forEach(opt => opt.classList.add('input-error'));
-            setTimeout(() => removeErrors(currentContainer), 500); // Remove class after animation
+            setTimeout(() => removeErrors(currentContainer), 500);
         }
     } 
-    // Validate Step 2: Time Selection
+    // Step 2 Validation
     else if (current === 2) {
-        const time = document.querySelector('input[name="time"]:checked');
-        if (time) {
+        if (document.querySelector('input[name="time"]:checked')) {
             isValid = true;
         } else {
             const options = currentContainer.querySelectorAll('.time-pill span');
@@ -180,12 +220,10 @@ function nextStep(current) {
         }
     }
 
-    // Only proceed if valid
     if (isValid) {
         document.getElementById(`step-${current}`).classList.remove('active');
         document.getElementById(`step-${current+1}`).classList.add('active');
         
-        // Update progress bar
         document.getElementById(`p${current}`).classList.remove('active');
         document.getElementById(`p${current}`).classList.add('completed');
         document.getElementById(`p${current+1}`).classList.add('active');
@@ -203,12 +241,10 @@ function prevStep(current) {
 function submitAppointment(e) {
     e.preventDefault();
     
-    // Validate Inputs
     const nameInput = document.getElementById('name');
     const phoneInput = document.getElementById('phone');
     let isValid = true;
 
-    // Reset styles
     nameInput.classList.remove('input-error');
     phoneInput.classList.remove('input-error');
 
@@ -227,12 +263,10 @@ function submitAppointment(e) {
         const name = nameInput.value;
         const phone = phoneInput.value;
         
-        // Format for WhatsApp (URL Encoded)
         const text = `Hello Klinik Medinura!%0AI would like to book an appointment.%0A%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A🏥 *Service:* ${service}%0A🕒 *Time:* ${time}`;
         
         window.open(`https://wa.me/60105120050?text=${text}`, '_blank');
     } else {
-        // Remove error class after animation
         setTimeout(() => {
             nameInput.classList.remove('input-error');
             phoneInput.classList.remove('input-error');
@@ -240,43 +274,6 @@ function submitAppointment(e) {
     }
 }
 
-// Helper to clean up error classes
 function removeErrors(container) {
     container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-}
-// --- Doctor Filter Logic ---
-function filterDoctors(category) {
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.doctor-item');
-
-    // 1. Update Buttons
-    buttons.forEach(btn => {
-        // Remove active class from all
-        btn.classList.remove('active');
-        // Add active to the clicked button (checking attributes to match language support)
-        if (btn.getAttribute('onclick').includes(category)) {
-            btn.classList.add('active');
-        }
-    });
-
-    // 2. Filter Cards
-    cards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        
-        // Reset animation for re-triggering
-        card.classList.remove('aos-animate');
-        
-        if (category === 'all' || cardCategory === category) {
-            card.style.display = 'block';
-            // Small timeout to allow display:block to apply before animating opacity
-            setTimeout(() => card.classList.add('aos-animate'), 50);
-        } else {
-            card.style.display = 'none';
-        }
-    });
-    
-    // Refresh AOS layout since heights might change
-    setTimeout(() => {
-        if(typeof AOS !== 'undefined') AOS.refresh();
-    }, 100);
 }
