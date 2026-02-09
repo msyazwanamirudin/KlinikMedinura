@@ -13,45 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('themeIcon').className = 'fas fa-sun';
     }
     updateLanguageUI(savedLang);
-
-    // 3. Init ScrollSpy (Active Link Highlighter)
-    initScrollSpy();
 });
 
-// --- ScrollSpy & Active Link Logic ---
-function initScrollSpy() {
-    const sections = document.querySelectorAll('section, header');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            // Offset ensures highlight changes slightly before section hits top
-            if (pageYOffset >= (sectionTop - 150)) {
-                current = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').includes(current)) {
-                link.classList.add('active');
-            }
-        });
-    });
-}
-
-// --- Scroll & Navbar Styles ---
+// --- Scroll & Navbar ---
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     const scrollBtn = document.getElementById('scrollToTopBtn');
     
+    // Add shadow to navbar on scroll
     if (window.scrollY > 50) navbar.classList.add('shadow-sm');
     else navbar.classList.remove('shadow-sm');
 
+    // Show/Hide Scroll Button
     if (window.scrollY > 300) scrollBtn.style.display = 'flex';
     else scrollBtn.style.display = 'none';
 });
@@ -102,6 +75,7 @@ function selectOption(qNum, val, btn) {
     quizData[`q${qNum}`] = val;
     const currentStep = document.getElementById(`q${qNum}`);
     
+    // Animate out
     currentStep.style.display = 'none';
     
     if (qNum < 3) {
@@ -149,6 +123,7 @@ function nextStep(current) {
     document.getElementById(`step-${current}`).classList.remove('active');
     document.getElementById(`step-${current+1}`).classList.add('active');
     
+    // Update progress bar
     document.getElementById(`p${current}`).classList.remove('active');
     document.getElementById(`p${current}`).classList.add('completed');
     document.getElementById(`p${current+1}`).classList.add('active');
