@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
         document.getElementById('themeIcon').className = 'fas fa-sun';
+        // Also update mobile icon if exists
+        const mobileIcon = document.getElementById('themeIconMobile');
+        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
     }
     updateLanguageUI(savedLang);
     initScrollSpy();
@@ -18,13 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function toggleTheme() {
     const html = document.documentElement;
     const icon = document.getElementById('themeIcon');
+    const mobileIcon = document.getElementById('themeIconMobile');
+    
     if (html.getAttribute('data-theme') === 'dark') {
         html.removeAttribute('data-theme');
         icon.className = 'fas fa-moon';
+        if(mobileIcon) mobileIcon.className = 'fas fa-moon';
         localStorage.setItem('theme', 'light');
     } else {
         html.setAttribute('data-theme', 'dark');
         icon.className = 'fas fa-sun';
+        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
         localStorage.setItem('theme', 'dark');
     }
 }
@@ -63,10 +70,10 @@ function updateLanguageUI(lang) {
     });
 }
 
-// --- Scroll & Nav Logic ---
+// --- Scroll & Nav Logic (Handles Bottom Nav too) ---
 function initScrollSpy() {
     const sections = document.querySelectorAll('section, header');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-bottom-nav .nav-item');
 
     window.addEventListener('scroll', () => {
         let current = '';
@@ -124,14 +131,17 @@ function filterDoctors(category) {
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
 }
 
-// --- Quiz Logic ---
+// --- Quiz Logic (Corrected for 3 Questions & Infinite Loop) ---
 let quizData = { q1: 0, q2: 0, q3: 0 };
 function selectOption(qNum, val, btn) {
     quizData[`q${qNum}`] = val;
     const currentStep = document.getElementById(`q${qNum}`);
     currentStep.style.display = 'none';
+    currentStep.classList.remove('active'); // Remove active class to allow reset
+    
     if (qNum < 3) {
         const next = document.getElementById(`q${qNum + 1}`);
+        next.style.display = 'block';
         next.classList.add('active');
     } else {
         showResult();
@@ -162,11 +172,20 @@ function showResult() {
 }
 
 function resetQuiz() {
+    // 1. Hide Result
     document.getElementById('result').style.display = 'none';
-    document.getElementById('q1').style.display = 'block';
-    document.getElementById('q1').classList.add('active');
+    
+    // 2. Hide all question blocks manually to ensure state is clean
+    document.getElementById('q1').style.display = 'none';
     document.getElementById('q2').style.display = 'none';
     document.getElementById('q3').style.display = 'none';
+    
+    // 3. Show First Question
+    document.getElementById('q1').style.display = 'block';
+    document.getElementById('q1').classList.add('active');
+    
+    // 4. Reset Data
+    quizData = { q1: 0, q2: 0, q3: 0 };
 }
 
 // --- Appointment Wizard ---

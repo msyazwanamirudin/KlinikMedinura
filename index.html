@@ -28,9 +28,11 @@
                 <span class="brand-text ms-2">Klinik Medinura</span>
             </a>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="d-flex align-items-center d-lg-none gap-2">
+                <button class="btn-icon-toggle" id="themeBtnMobile" onclick="toggleTheme()">
+                    <i id="themeIconMobile" class="fas fa-moon"></i>
+                </button>
+            </div>
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
@@ -38,6 +40,8 @@
                     <li class="nav-item"><a class="nav-link" href="#services" data-en="Services" data-ms="Perkhidmatan">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="#health-checker" data-en="Symptom Check" data-ms="Pemeriksa Gejala">Symptom Check</a></li>
                     <li class="nav-item"><a class="nav-link" href="#doctors" data-en="Specialists" data-ms="Pakar">Specialists</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#appointment-form" data-en="Appointment" data-ms="Janji Temu">Appointment</a></li>
+                    
                     <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
                         <button class="btn-icon-toggle" id="langBtn" onclick="toggleLanguage()">BM</button>
                         <button class="btn-icon-toggle" id="themeBtn" onclick="toggleTheme()">
@@ -48,6 +52,31 @@
                 </ul>
             </div>
         </div>
+    </nav>
+
+    <nav class="mobile-bottom-nav d-lg-none">
+        <a href="#home" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span data-en="Home" data-ms="Utama">Home</span>
+        </a>
+        <a href="#services" class="nav-item">
+            <i class="fas fa-briefcase-medical"></i>
+            <span data-en="Services" data-ms="Servis">Services</span>
+        </a>
+        <a href="#appointment-form" class="nav-item center-fab">
+            <div class="fab-circle">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <span data-en="Book" data-ms="Tempah">Book</span>
+        </a>
+        <a href="#doctors" class="nav-item">
+            <i class="fas fa-user-md"></i>
+            <span data-en="Doctors" data-ms="Doktor">Doctors</span>
+        </a>
+        <a href="#health-checker" class="nav-item">
+            <i class="fas fa-heartbeat"></i>
+            <span data-en="Check" data-ms="Semak">Check</span>
+        </a>
     </nav>
 
     <header class="hero-section" id="home">
@@ -101,7 +130,7 @@
                             <img src="assets/bg2.png" class="img-fluid" alt="Klinik Medinura">
                             <div class="glass-overlay"></div>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,39 +308,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 doctor-item" data-category="specialist" data-aos="fade-up" data-aos-delay="300">
-                    <div class="doctor-card">
-                        <div class="doctor-img-box">
-                            <img src="assets/logo.png" alt="Dr. Wong" class="img-fluid">
-                            <div class="social-overlay">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5 class="mb-1">Dr. Wong Wei</h5>
-                            <span class="badge-role" data-en="Radiologist" data-ms="Ahli Radiologi">Radiologist</span>
-                            <p class="small text-muted mt-3 mb-0" data-en="Specialist in ultrasound and diagnostics." data-ms="Pakar dalam ultrasound dan diagnostik.">Specialist in ultrasound.</p>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-6 col-lg-3 doctor-item" data-category="gp" data-aos="fade-up" data-aos-delay="400">
-                    <div class="doctor-card">
-                        <div class="doctor-img-box">
-                            <img src="assets/logo.png" alt="Dr. Priya" class="img-fluid">
-                            <div class="social-overlay">
-                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#"><i class="fas fa-envelope"></i></a>
-                            </div>
-                        </div>
-                        <div class="doctor-info">
-                            <h5 class="mb-1">Dr. Priya K.</h5>
-                            <span class="badge-role" data-en="General Practitioner" data-ms="Pengamal Am">General Practitioner</span>
-                            <p class="small text-muted mt-3 mb-0" data-en="Focuses on women's health and wellness." data-ms="Fokus pada kesihatan wanita.">Focuses on women's health.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -433,10 +430,10 @@
                     </ul>
                 </div>
                 <div class="col-lg-2 col-6">
-                    <h6 class="text-white mb-3" data-en="Legal" data-ms="Undang-undang">Legal</h6>
+                    <h6 class="text-white mb-3" data-en="Resources" data-ms="Sumber">Resources</h6>
                     <ul class="list-unstyled text-white-50">
-                        <li><a href="#" data-en="Privacy" data-ms="Privasi">Privacy</a></li>
-                        <li><a href="#" data-en="Terms" data-ms="Terma">Terms</a></li>
+                        <li><a href="#" data-en="Blog" data-ms="Blog">Blog</a></li>
+                        <li><a href="#" data-en="FAQ" data-ms="Soalan Lazim">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4">
