@@ -129,18 +129,19 @@ function filterDoctors(category) {
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
 }
 
-// --- Quiz Logic (Corrected Infinite Loop) ---
+// --- Quiz Logic (FIXED STYLE & INFINITE LOOP) ---
 let quizData = { q1: 0, q2: 0, q3: 0 };
-function selectOption(qNum, val, btn) {
-    quizData[`q${qNum}`] = val;
+
+function selectOption(qNum, val) {
+    quizData['q'+qNum] = val;
+    
+    // Hide current using Class, NOT inline style
     const currentStep = document.getElementById(`q${qNum}`);
-    currentStep.style.display = 'none';
-    currentStep.classList.remove('active'); // Important for reset
+    currentStep.classList.remove('active'); // CSS handles display:none
     
     if (qNum < 3) {
         const next = document.getElementById(`q${qNum + 1}`);
-        next.style.display = 'block';
-        next.classList.add('active');
+        next.classList.add('active'); // CSS handles display:block + animation
     } else {
         showResult();
     }
@@ -152,7 +153,9 @@ function showResult() {
     const title = resDiv.querySelector('.result-title');
     const desc = resDiv.querySelector('.result-desc');
     const icon = resDiv.querySelector('.result-icon');
-    resDiv.style.display = 'block';
+    
+    // Hide last question results
+    document.getElementById('result').style.display = 'block';
 
     if (total <= 2) {
         title.innerText = "Low Risk"; title.className = "result-title text-success";
@@ -170,24 +173,17 @@ function showResult() {
 }
 
 function resetQuiz() {
-    // 1. Hide result
     document.getElementById('result').style.display = 'none';
     
-    // 2. Hide ALL questions first to clear state
-    document.getElementById('q1').style.display = 'none';
-    document.getElementById('q2').style.display = 'none';
-    document.getElementById('q3').style.display = 'none';
-    
+    // Reset classes
     document.getElementById('q1').classList.remove('active');
     document.getElementById('q2').classList.remove('active');
     document.getElementById('q3').classList.remove('active');
-
-    // 3. Show first question
-    const q1 = document.getElementById('q1');
-    q1.style.display = 'block';
-    setTimeout(() => q1.classList.add('active'), 50);
     
-    // 4. Reset Data
+    // Add active to first to trigger animation
+    void document.getElementById('q1').offsetWidth; // Trigger reflow
+    document.getElementById('q1').classList.add('active');
+    
     quizData = { q1: 0, q2: 0, q3: 0 };
 }
 

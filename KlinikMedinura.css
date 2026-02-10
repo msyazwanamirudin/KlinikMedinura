@@ -7,8 +7,9 @@
     
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, #8B1E3F 0%, #B3454B 100%);
+    --gradient-glass: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
     
-    /* Light Mode Variables */
+    /* Neutrals */
     --text-heading: #1a1a1a;
     --text-body: #555555;
     --text-muted: #64748B;
@@ -40,6 +41,7 @@
 html, body {
     overflow-x: hidden;
     width: 100%;
+    position: relative;
 }
 
 /* Base Styles */
@@ -135,15 +137,15 @@ h1, h2, h3, h4, h5, h6 {
     border: 4px solid var(--bg-body);
 }
 
-/* Hero Section - NO PADDING */
+/* Hero Section */
 .hero-section {
     position: relative;
-    padding: 0; /* Forced removal of padding */
+    padding: 0;
     background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-body) 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
-    overflow: hidden; 
+    overflow: hidden; /* Critical for mobile sizing */
 }
 
 .hero-text-col { padding-top: 20px; }
@@ -205,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
 .shape-fill { fill: var(--bg-body); }
 
 /* Service & Doctor Cards */
-.section-padding { padding: 100px 0; }
+.section-padding { padding: 100px 0; overflow: hidden; } /* Added overflow hidden */
 .sub-title {
     display: block; text-transform: uppercase; letter-spacing: 2px;
     font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px;
@@ -340,3 +342,9 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1000; transition: transform 0.3s;
 }
 #scrollToTopBtn:hover { transform: scale(1.1); }
+
+/* --- FIX: QUIZ STYLE CONSISTENCY --- */
+/* By putting animation on .active only, every question animates in the same way */
+.quiz-step { display: none; }
+.quiz-step.active { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
