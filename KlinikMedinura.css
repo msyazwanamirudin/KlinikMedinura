@@ -466,7 +466,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 50%; margin-right: 10px; transition: all 0.3s;
 }
 .social-icons a:hover { background: var(--primary); transform: translateY(-3px); }
-
+/* --- Scroll to Top Button --- */
 #scrollToTopBtn {
     position: fixed; bottom: 30px; right: 30px;
     width: 50px; height: 50px;
@@ -477,3 +477,33 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1000; transition: transform 0.3s;
 }
 #scrollToTopBtn:hover { transform: scale(1.1); }
+/* --- Content Protection Alert --- */
+#protection-alert {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px); /* Hidden by default */
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none; /* Let clicks pass through */
+}
+
+#protection-alert.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+#protection-alert i {
+    color: #ff4757; /* Warning Red */
+}

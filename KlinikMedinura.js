@@ -280,4 +280,42 @@ function filterDoctors(category) {
         if(typeof AOS !== 'undefined') AOS.refresh();
     }, 100);
 }
+/* --- Content Protection Script --- */
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Create the Alert Bubble
+    const alertBox = document.createElement('div');
+    alertBox.id = 'protection-alert';
+    alertBox.innerHTML = '<i class="fas fa-shield-alt"></i> Content is protected.';
+    document.body.appendChild(alertBox);
 
+    // Helper to show alert
+    let timeout;
+    function showProtectionAlert() {
+        alertBox.classList.add('show');
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 2000); // Disappears after 2 seconds
+    }
+
+    // 2. Disable Right Click
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showProtectionAlert();
+    });
+
+    // 3. Disable Keyboard Shortcuts (F12, Ctrl+U, Ctrl+S, Ctrl+Shift+I)
+    document.addEventListener('keydown', (e) => {
+        if (
+            e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && e.key === 'I') || // Inspect
+            (e.ctrlKey && e.shiftKey && e.key === 'J') || // Console
+            (e.ctrlKey && e.key === 'u') || // View Source
+            (e.ctrlKey && e.key === 's') // Save Page
+        ) {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+    });
+});
