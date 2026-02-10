@@ -1,14 +1,10 @@
 :root {
-    /* Brand Colors */
     --primary: #8B1E3F;
     --primary-dark: #66122c;
     --primary-light: #ab3255;
     --primary-soft: rgba(139, 30, 63, 0.08);
-    
-    /* Gradients */
     --gradient-primary: linear-gradient(135deg, #8B1E3F 0%, #B3454B 100%);
-    
-    /* Light Mode Variables */
+    --gradient-glass: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
     --text-heading: #1a1a1a;
     --text-body: #555555;
     --text-muted: #64748B;
@@ -16,8 +12,6 @@
     --bg-light: #FFF9FA; 
     --white: #ffffff;
     --border-color: #E2E8F0;
-    
-    /* UI Elements */
     --radius-lg: 24px;
     --radius-md: 16px;
     --shadow-soft: 0 10px 40px -10px rgba(139, 30, 63, 0.1);
@@ -36,20 +30,22 @@
     --primary-soft: rgba(139, 30, 63, 0.3);
 }
 
-/* Base Styles */
+/* FIX: Prevent Horizontal Scroll on Mobile */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: var(--text-body);
     background-color: var(--bg-body);
-    overflow-x: hidden;
     padding-top: 80px;
     padding-bottom: 0;
 }
 
-/* Mobile: Add padding bottom so content isn't covered by bottom nav */
 @media (max-width: 991px) {
     body { padding-bottom: 80px; }
-    .navbar { display: block; }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,17 +86,7 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--primary-soft);
 }
 
-/* Theme Button */
-.btn-icon-toggle {
-    width: 40px; height: 40px; border-radius: 50%;
-    border: 1px solid rgba(139,30,63,0.2);
-    background: transparent; color: var(--text-heading);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s;
-}
-.btn-icon-toggle:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-/* --- Mobile Bottom Nav --- */
+/* Mobile Bottom Nav */
 .mobile-bottom-nav {
     position: fixed;
     bottom: 0; left: 0; width: 100%;
@@ -121,7 +107,6 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-bottom-nav .nav-item i { font-size: 1.2rem; }
 .mobile-bottom-nav .nav-item.active { color: var(--primary); }
 
-/* Center FAB in Bottom Nav */
 .center-fab { position: relative; top: -30px; }
 .fab-circle {
     width: 55px; height: 55px;
@@ -140,6 +125,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 50px;
     background: linear-gradient(180deg, var(--bg-light) 0%, var(--bg-body) 100%);
     min-height: 100vh;
+    overflow: hidden; /* FIX: Ensure SVG doesn't overflow */
 }
 
 .hero-text-col { padding-top: 20px; }
@@ -167,14 +153,12 @@ h1, h2, h3, h4, h5, h6 {
     transform: translateY(-3px); color: #fff;
     box-shadow: 0 15px 30px -5px rgba(139, 30, 63, 0.6);
 }
-
 .btn-outline-premium {
     border: 2px solid var(--primary); color: var(--primary);
     padding: 12px 30px; border-radius: 50px; font-weight: 600;
     transition: all 0.3s;
 }
 .btn-outline-premium:hover { background: var(--primary); color: #fff; }
-
 .btn-whatsapp {
     background-color: #25D366 !important; color: #fff !important;
     border: none; border-radius: 50px; font-weight: 600; padding: 12px 30px;
@@ -185,6 +169,15 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
 }
 
+.btn-icon-toggle {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid rgba(139,30,63,0.2);
+    background: transparent; color: var(--text-heading);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+}
+.btn-icon-toggle:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
 /* Images & Cards */
 .hero-image-wrapper { position: relative; padding: 20px; }
 .hero-img-box {
@@ -194,7 +187,6 @@ h1, h2, h3, h4, h5, h6 {
     display: flex; align-items: center; justify-content: center;
 }
 
-/* Wave Divider */
 .custom-shape-divider-bottom {
     position: absolute; bottom: 0; left: 0; width: 100%; overflow: hidden; line-height: 0;
 }

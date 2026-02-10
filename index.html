@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg fixed-top d-none d-lg-block">
         <div class="container-fluid px-lg-5">
             <a class="navbar-brand d-flex align-items-center" href="#" onclick="scrollToTop(event)">
                 <div class="logo-pill">
@@ -27,12 +27,6 @@
                 </div>
                 <span class="brand-text ms-2">Klinik Medinura</span>
             </a>
-            
-            <div class="d-flex align-items-center d-lg-none gap-2">
-                <button class="btn-icon-toggle" id="themeBtnMobile" onclick="toggleTheme()">
-                    <i id="themeIconMobile" class="fas fa-moon"></i>
-                </button>
-            </div>
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
@@ -47,9 +41,24 @@
                         <button class="btn-icon-toggle" id="themeBtn" onclick="toggleTheme()">
                             <i id="themeIcon" class="fas fa-moon"></i>
                         </button>
-                        <a href="#appointment-form" class="btn btn-primary-gradient ms-2 d-none d-lg-block" data-en="Book Now" data-ms="Tempah">Book Now</a>
+                        <a href="#appointment-form" class="btn btn-primary-gradient ms-2" data-en="Book Now" data-ms="Tempah">Book Now</a>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar fixed-top d-lg-none bg-white shadow-sm" style="height: 60px;">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="assets/logo.png" alt="Logo" style="height: 35px;">
+                <span class="brand-text ms-2" style="font-size: 1.1rem;">Klinik Medinura</span>
+            </a>
+            <div class="d-flex gap-2">
+                <button class="btn-icon-toggle" style="width: 35px; height: 35px;" onclick="toggleTheme()">
+                    <i id="themeIconMobile" class="fas fa-moon"></i>
+                </button>
+                <button class="btn-icon-toggle" style="width: 35px; height: 35px; font-size: 0.8rem;" onclick="toggleLanguage()">BM</button>
             </div>
         </div>
     </nav>
@@ -225,21 +234,21 @@
                         <div class="quiz-body" id="quizContent">
                             <div class="quiz-step active" id="q1">
                                 <h5 class="mb-4" data-en="1. What is your current body temperature?" data-ms="1. Apakah suhu badan anda sekarang?">1. What is your current body temperature?</h5>
-                                <button class="quiz-btn" onclick="selectOption(1, 0, this)" data-en="Normal (< 37.5°C)" data-ms="Normal (< 37.5°C)">Normal (< 37.5°C)</button>
-                                <button class="quiz-btn" onclick="selectOption(1, 1, this)" data-en="Mild Fever (37.5 - 38.5°C)" data-ms="Demam Ringan (37.5 - 38.5°C)">Mild Fever (37.5 - 38.5°C)</button>
-                                <button class="quiz-btn" onclick="selectOption(1, 2, this)" data-en="High Fever (> 38.5°C)" data-ms="Demam Tinggi (> 38.5°C)">High Fever (> 38.5°C)</button>
+                                <button class="quiz-btn" onclick="selectOption(1, 0)" data-en="Normal (< 37.5°C)" data-ms="Normal (< 37.5°C)">Normal (< 37.5°C)</button>
+                                <button class="quiz-btn" onclick="selectOption(1, 1)" data-en="Mild Fever (37.5 - 38.5°C)" data-ms="Demam Ringan (37.5 - 38.5°C)">Mild Fever (37.5 - 38.5°C)</button>
+                                <button class="quiz-btn" onclick="selectOption(1, 2)" data-en="High Fever (> 38.5°C)" data-ms="Demam Tinggi (> 38.5°C)">High Fever (> 38.5°C)</button>
                             </div>
-                            <div class="quiz-step" id="q2">
+                            <div class="quiz-step" id="q2" style="display:none;">
                                 <h5 class="mb-4" data-en="2. Duration of symptoms?" data-ms="2. Tempoh gejala?">2. Duration of symptoms?</h5>
-                                <button class="quiz-btn" onclick="selectOption(2, 0, this)" data-en="< 24 Hours" data-ms="< 24 Jam">< 24 Hours</button>
-                                <button class="quiz-btn" onclick="selectOption(2, 1, this)" data-en="1 - 3 Days" data-ms="1 - 3 Hari">1 - 3 Days</button>
-                                <button class="quiz-btn" onclick="selectOption(2, 2, this)" data-en="> 3 Days" data-ms="> 3 Hari">> 3 Days</button>
+                                <button class="quiz-btn" onclick="selectOption(2, 0)" data-en="< 24 Hours" data-ms="< 24 Jam">< 24 Hours</button>
+                                <button class="quiz-btn" onclick="selectOption(2, 1)" data-en="1 - 3 Days" data-ms="1 - 3 Hari">1 - 3 Days</button>
+                                <button class="quiz-btn" onclick="selectOption(2, 2)" data-en="> 3 Days" data-ms="> 3 Hari">> 3 Days</button>
                             </div>
-                            <div class="quiz-step" id="q3">
+                            <div class="quiz-step" id="q3" style="display:none;">
                                 <h5 class="mb-4" data-en="3. Any severe pain or difficulty breathing?" data-ms="3. Sakit teruk atau sukar bernafas?">3. Any severe pain or difficulty breathing?</h5>
-                                <button class="quiz-btn" onclick="selectOption(3, 2, this)" data-en="Yes, Severe" data-ms="Ya, Teruk">Yes, Severe</button>
-                                <button class="quiz-btn" onclick="selectOption(3, 1, this)" data-en="Mild Discomfort" data-ms="Ketidakselesaan Ringan">Mild Discomfort</button>
-                                <button class="quiz-btn" onclick="selectOption(3, 0, this)" data-en="No" data-ms="Tidak">No</button>
+                                <button class="quiz-btn" onclick="selectOption(3, 2)" data-en="Yes, Severe" data-ms="Ya, Teruk">Yes, Severe</button>
+                                <button class="quiz-btn" onclick="selectOption(3, 1)" data-en="Mild Discomfort" data-ms="Ketidakselesaan Ringan">Mild Discomfort</button>
+                                <button class="quiz-btn" onclick="selectOption(3, 0)" data-en="No" data-ms="Tidak">No</button>
                             </div>
                             
                             <div class="quiz-result text-center" id="result" style="display:none;">
@@ -308,7 +317,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="specialist" data-aos="fade-up" data-aos-delay="300">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Wong" class="img-fluid">
+                            <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Wong Wei</h5>
+                            <span class="badge-role" data-en="Radiologist" data-ms="Ahli Radiologi">Radiologist</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Specialist in ultrasound and diagnostics." data-ms="Pakar dalam ultrasound dan diagnostik.">Specialist in ultrasound.</p>
+                        </div>
+                    </div>
                 </div>
+                <div class="col-md-6 col-lg-3 doctor-item" data-category="gp" data-aos="fade-up" data-aos-delay="400">
+                    <div class="doctor-card">
+                        <div class="doctor-img-box">
+                            <img src="assets/logo.png" alt="Dr. Priya" class="img-fluid">
+                            <div class="social-overlay">
+                                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <div class="doctor-info">
+                            <h5 class="mb-1">Dr. Priya K.</h5>
+                            <span class="badge-role" data-en="General Practitioner" data-ms="Pengamal Am">General Practitioner</span>
+                            <p class="small text-muted mt-3 mb-0" data-en="Focuses on women's health and wellness." data-ms="Fokus pada kesihatan wanita.">Focuses on women's health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

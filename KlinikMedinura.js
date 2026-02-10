@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
         document.getElementById('themeIcon').className = 'fas fa-sun';
-        // Also update mobile icon if exists
         const mobileIcon = document.getElementById('themeIconMobile');
         if(mobileIcon) mobileIcon.className = 'fas fa-sun';
     }
@@ -70,7 +69,7 @@ function updateLanguageUI(lang) {
     });
 }
 
-// --- Scroll & Nav Logic (Handles Bottom Nav too) ---
+// --- Scroll & Nav Logic ---
 function initScrollSpy() {
     const sections = document.querySelectorAll('section, header');
     const navLinks = document.querySelectorAll('.nav-link, .mobile-bottom-nav .nav-item');
@@ -93,7 +92,6 @@ function initScrollSpy() {
         });
     });
 
-    // Navbar Scroll Shadow
     const navbar = document.querySelector('.navbar');
     const scrollBtn = document.getElementById('scrollToTopBtn');
     if (window.scrollY > 50) navbar.classList.add('shadow-sm');
@@ -131,18 +129,22 @@ function filterDoctors(category) {
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
 }
 
-// --- Quiz Logic (Corrected for 3 Questions & Infinite Loop) ---
+// --- Quiz Logic (Corrected Infinite Loop) ---
 let quizData = { q1: 0, q2: 0, q3: 0 };
-function selectOption(qNum, val, btn) {
-    quizData[`q${qNum}`] = val;
-    const currentStep = document.getElementById(`q${qNum}`);
-    currentStep.style.display = 'none';
-    currentStep.classList.remove('active'); // Remove active class to allow reset
+function selectOption(qNum, val) {
+    // Save value
+    quizData['q'+qNum] = val;
     
-    if (qNum < 3) {
-        const next = document.getElementById(`q${qNum + 1}`);
+    // Hide current
+    const current = document.getElementById('q'+qNum);
+    current.classList.remove('active');
+    current.style.display = 'none';
+
+    // Show next or result
+    if(qNum < 3) {
+        const next = document.getElementById('q'+(qNum+1));
         next.style.display = 'block';
-        next.classList.add('active');
+        setTimeout(() => next.classList.add('active'), 50);
     } else {
         showResult();
     }
@@ -175,17 +177,22 @@ function resetQuiz() {
     // 1. Hide Result
     document.getElementById('result').style.display = 'none';
     
-    // 2. Hide all question blocks manually to ensure state is clean
-    document.getElementById('q1').style.display = 'none';
-    document.getElementById('q2').style.display = 'none';
-    document.getElementById('q3').style.display = 'none';
+    // 2. Force hide ALL questions
+    for(let i=1; i<=3; i++) {
+        const el = document.getElementById('q'+i);
+        if(el) {
+            el.style.display = 'none';
+            el.classList.remove('active');
+        }
+    }
     
-    // 3. Show First Question
-    document.getElementById('q1').style.display = 'block';
-    document.getElementById('q1').classList.add('active');
-    
-    // 4. Reset Data
+    // 3. Reset Data
     quizData = { q1: 0, q2: 0, q3: 0 };
+    
+    // 4. Show First Question
+    const q1 = document.getElementById('q1');
+    q1.style.display = 'block';
+    setTimeout(() => q1.classList.add('active'), 50);
 }
 
 // --- Appointment Wizard ---
