@@ -280,3 +280,4 @@ function filterDoctors(category) {
         if(typeof AOS !== 'undefined') AOS.refresh();
     }, 100);
 }
+
