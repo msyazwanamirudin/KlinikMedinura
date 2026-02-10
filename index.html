@@ -375,31 +375,29 @@
                     </div>
                     <div class="col-lg-7">
                         <div class="appointment-body">
-                            <div class="wizard-progress">
-                                <div class="step active" id="p1"><span>1</span><small data-en="Service" data-ms="Servis">Service</small></div>
-                                <div class="line"></div>
-                                <div class="step" id="p2"><span>2</span><small data-en="Time" data-ms="Masa">Time</small></div>
-                                <div class="line"></div>
-                                <div class="step" id="p3"><span>3</span><small data-en="Details" data-ms="Butiran">Details</small></div>
-                            </div>
-
                             <div class="wizard-step active" id="step-1">
                                 <h5 class="mb-4" data-en="Choose a Service" data-ms="Pilih Perkhidmatan">Choose a Service</h5>
                                 
-                                <div id="service-options">
-                                    <button class="quiz-btn" onclick="autoNextStep(1, 'General Checkup')">
-                                        <i class="fas fa-stethoscope me-2"></i> <span data-en="General Checkup" data-ms="Pemeriksaan Umum">General Checkup</span>
-                                    </button>
-                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Pediatric')">
-                                        <i class="fas fa-baby me-2"></i> <span data-en="Pediatric (Kids)" data-ms="Pediatrik (Kanak-kanak)">Pediatric (Kids)</span>
-                                    </button>
-                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Ultrasound')">
-                                        <i class="fas fa-wave-square me-2"></i> <span data-en="Ultrasound" data-ms="Ultrasound">Ultrasound</span>
-                                    </button>
-                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Vaccination')">
-                                        <i class="fas fa-syringe me-2"></i> <span data-en="Vaccination" data-ms="Vaksinasi">Vaccination</span>
-                                    </button>
-                                    <input type="hidden" id="selectedService">
+                                <div id="alert-1" class="alert-box" style="display:none;">
+                                    <i class="fas fa-exclamation-circle"></i> <span data-en="Please select one option." data-ms="Sila pilih satu pilihan.">Please select one option.</span>
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <button class="quiz-btn" onclick="autoNextStep(1, 'General Checkup')">
+                                            <i class="fas fa-stethoscope me-2"></i> <span data-en="General Checkup" data-ms="Pemeriksaan Umum">General Checkup</span>
+                                        </button>
+                                        <button class="quiz-btn" onclick="autoNextStep(1, 'Pediatric')">
+                                            <i class="fas fa-baby me-2"></i> <span data-en="Pediatric (Kids)" data-ms="Pediatrik (Kanak-kanak)">Pediatric (Kids)</span>
+                                        </button>
+                                        <button class="quiz-btn" onclick="autoNextStep(1, 'Ultrasound')">
+                                            <i class="fas fa-wave-square me-2"></i> <span data-en="Ultrasound" data-ms="Ultrasound">Ultrasound</span>
+                                        </button>
+                                        <button class="quiz-btn" onclick="autoNextStep(1, 'Vaccination')">
+                                            <i class="fas fa-syringe me-2"></i> <span data-en="Vaccination" data-ms="Vaksinasi">Vaccination</span>
+                                        </button>
+                                        <input type="hidden" id="selectedService">
+                                    </div>
                                 </div>
                             </div>
 

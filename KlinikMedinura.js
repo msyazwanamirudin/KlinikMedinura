@@ -225,17 +225,12 @@ function nextStep(current) {
     if (isValid) {
         document.getElementById(`step-${current}`).classList.remove('active');
         document.getElementById(`step-${current+1}`).classList.add('active');
-        document.getElementById(`p${current}`).classList.remove('active');
-        document.getElementById(`p${current}`).classList.add('completed');
-        document.getElementById(`p${current+1}`).classList.add('active');
     }
 }
 
 function prevStep(current) {
     document.getElementById(`step-${current}`).classList.remove('active');
     document.getElementById(`step-${current-1}`).classList.add('active');
-    document.getElementById(`p${current}`).classList.remove('active');
-    document.getElementById(`p${current-1}`).classList.add('active');
 }
 
 function submitAppointment(e) {
