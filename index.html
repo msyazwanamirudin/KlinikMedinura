@@ -234,21 +234,27 @@
                         <div class="quiz-body" id="quizContent">
                             <div class="quiz-step active" id="q1">
                                 <h5 class="mb-4" data-en="1. What is your current body temperature?" data-ms="1. Apakah suhu badan anda sekarang?">1. What is your current body temperature?</h5>
-                                <button class="quiz-btn" onclick="selectOption(1, 0)" data-en="Normal (< 37.5°C)" data-ms="Normal (< 37.5°C)">Normal (< 37.5°C)</button>
-                                <button class="quiz-btn" onclick="selectOption(1, 1)" data-en="Mild Fever (37.5 - 38.5°C)" data-ms="Demam Ringan (37.5 - 38.5°C)">Mild Fever (37.5 - 38.5°C)</button>
-                                <button class="quiz-btn" onclick="selectOption(1, 2)" data-en="High Fever (> 38.5°C)" data-ms="Demam Tinggi (> 38.5°C)">High Fever (> 38.5°C)</button>
+                                <div class="option-group">
+                                    <button class="quiz-btn" onclick="selectOption(1, 0)" data-en="Normal (< 37.5°C)" data-ms="Normal (< 37.5°C)">Normal (< 37.5°C)</button>
+                                    <button class="quiz-btn" onclick="selectOption(1, 1)" data-en="Mild Fever (37.5 - 38.5°C)" data-ms="Demam Ringan (37.5 - 38.5°C)">Mild Fever (37.5 - 38.5°C)</button>
+                                    <button class="quiz-btn" onclick="selectOption(1, 2)" data-en="High Fever (> 38.5°C)" data-ms="Demam Tinggi (> 38.5°C)">High Fever (> 38.5°C)</button>
+                                </div>
                             </div>
                             <div class="quiz-step" id="q2">
                                 <h5 class="mb-4" data-en="2. Duration of symptoms?" data-ms="2. Tempoh gejala?">2. Duration of symptoms?</h5>
-                                <button class="quiz-btn" onclick="selectOption(2, 0)" data-en="< 24 Hours" data-ms="< 24 Jam">< 24 Hours</button>
-                                <button class="quiz-btn" onclick="selectOption(2, 1)" data-en="1 - 3 Days" data-ms="1 - 3 Hari">1 - 3 Days</button>
-                                <button class="quiz-btn" onclick="selectOption(2, 2)" data-en="> 3 Days" data-ms="> 3 Hari">> 3 Days</button>
+                                <div class="option-group">
+                                    <button class="quiz-btn" onclick="selectOption(2, 0)" data-en="< 24 Hours" data-ms="< 24 Jam">< 24 Hours</button>
+                                    <button class="quiz-btn" onclick="selectOption(2, 1)" data-en="1 - 3 Days" data-ms="1 - 3 Hari">1 - 3 Days</button>
+                                    <button class="quiz-btn" onclick="selectOption(2, 2)" data-en="> 3 Days" data-ms="> 3 Hari">> 3 Days</button>
+                                </div>
                             </div>
                             <div class="quiz-step" id="q3">
                                 <h5 class="mb-4" data-en="3. Any severe pain or difficulty breathing?" data-ms="3. Sakit teruk atau sukar bernafas?">3. Any severe pain or difficulty breathing?</h5>
-                                <button class="quiz-btn" onclick="selectOption(3, 2)" data-en="Yes, Severe" data-ms="Ya, Teruk">Yes, Severe</button>
-                                <button class="quiz-btn" onclick="selectOption(3, 1)" data-en="Mild Discomfort" data-ms="Ketidakselesaan Ringan">Mild Discomfort</button>
-                                <button class="quiz-btn" onclick="selectOption(3, 0)" data-en="No" data-ms="Tidak">No</button>
+                                <div class="option-group">
+                                    <button class="quiz-btn" onclick="selectOption(3, 2)" data-en="Yes, Severe" data-ms="Ya, Teruk">Yes, Severe</button>
+                                    <button class="quiz-btn" onclick="selectOption(3, 1)" data-en="Mild Discomfort" data-ms="Ketidakselesaan Ringan">Mild Discomfort</button>
+                                    <button class="quiz-btn" onclick="selectOption(3, 0)" data-en="No" data-ms="Tidak">No</button>
+                                </div>
                             </div>
                             
                             <div class="quiz-result text-center" id="result" style="display:none;">
@@ -410,11 +416,11 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label small text-muted">Date</label>
+                                    <label class="form-label small text-muted" data-en="Date" data-ms="Tarikh">Date</label>
                                     <input type="date" id="apptDate" class="form-control modern-input">
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label small text-muted">Time</label>
+                                    <label class="form-label small text-muted" data-en="Time" data-ms="Masa">Time</label>
                                     <input type="time" id="apptTime" class="form-control modern-input">
                                 </div>
 

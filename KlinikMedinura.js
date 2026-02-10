@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateLanguageUI(savedLang);
     initScrollSpy();
+    shuffleQuiz(); // Shuffle on load
 });
 
 // --- Theme Logic ---
@@ -131,13 +132,21 @@ function filterDoctors(category) {
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
 }
 
-// --- Quiz Logic (FIXED STYLE & INFINITE LOOP) ---
+// --- Quiz Logic (FIXED STYLE & INFINITE LOOP & RANDOM) ---
 let quizData = { q1: 0, q2: 0, q3: 0 };
+
+function shuffleQuiz() {
+    const containers = document.querySelectorAll('.option-group');
+    containers.forEach(container => {
+        for (let i = container.children.length; i >= 0; i--) {
+            container.appendChild(container.children[Math.random() * i | 0]);
+        }
+    });
+}
 
 function selectOption(qNum, val) {
     quizData['q'+qNum] = val;
     
-    // Hide current using Class
     const currentStep = document.getElementById(`q${qNum}`);
     currentStep.classList.remove('active'); 
     
@@ -154,34 +163,30 @@ function showResult() {
     const resDiv = document.getElementById('result');
     const title = resDiv.querySelector('.result-title');
     const desc = resDiv.querySelector('.result-desc');
-    const icon = resDiv.querySelector('.result-icon');
     
-    // Hide last question results
     document.getElementById('result').style.display = 'block';
 
     if (total <= 2) {
         title.innerText = "Low Risk"; title.className = "result-title text-success";
         desc.innerText = "Mild condition. Rest well.";
-        icon.innerHTML = '<i class="fas fa-smile text-success fa-3x"></i>';
     } else if (total <= 5) {
         title.innerText = "Moderate Risk"; title.className = "result-title text-warning";
         desc.innerText = "Monitor closely.";
-        icon.innerHTML = '<i class="fas fa-meh text-warning fa-3x"></i>';
     } else {
         title.innerText = "High Risk"; title.className = "result-title text-danger";
         desc.innerText = "Visit clinic immediately.";
-        icon.innerHTML = '<i class="fas fa-frown text-danger fa-3x"></i>';
     }
 }
 
 function resetQuiz() {
     document.getElementById('result').style.display = 'none';
     
-    // Reset classes
     document.getElementById('q1').classList.remove('active');
     document.getElementById('q2').classList.remove('active');
     document.getElementById('q3').classList.remove('active');
     
+    shuffleQuiz(); // Re-shuffle on reset
+
     // Trigger Reflow to restart animation
     void document.getElementById('q1').offsetWidth; 
     document.getElementById('q1').classList.add('active');
