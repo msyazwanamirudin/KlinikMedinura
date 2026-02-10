@@ -386,51 +386,40 @@
                             <div class="wizard-step active" id="step-1">
                                 <h5 class="mb-4" data-en="Choose a Service" data-ms="Pilih Perkhidmatan">Choose a Service</h5>
                                 
-                                <div id="alert-1" class="alert-box" style="display:none;">
-                                    <i class="fas fa-exclamation-circle"></i> <span data-en="Please select one option." data-ms="Sila pilih satu pilihan.">Please select one option.</span>
+                                <div id="service-options">
+                                    <button class="quiz-btn" onclick="autoNextStep(1, 'General Checkup')">
+                                        <i class="fas fa-stethoscope me-2"></i> <span data-en="General Checkup" data-ms="Pemeriksaan Umum">General Checkup</span>
+                                    </button>
+                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Pediatric')">
+                                        <i class="fas fa-baby me-2"></i> <span data-en="Pediatric (Kids)" data-ms="Pediatrik (Kanak-kanak)">Pediatric (Kids)</span>
+                                    </button>
+                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Ultrasound')">
+                                        <i class="fas fa-wave-square me-2"></i> <span data-en="Ultrasound" data-ms="Ultrasound">Ultrasound</span>
+                                    </button>
+                                    <button class="quiz-btn" onclick="autoNextStep(1, 'Vaccination')">
+                                        <i class="fas fa-syringe me-2"></i> <span data-en="Vaccination" data-ms="Vaksinasi">Vaccination</span>
+                                    </button>
+                                    <input type="hidden" id="selectedService">
                                 </div>
-
-                                <div class="row g-3">
-                                    <div class="col-6">
-                                        <label class="select-box">
-                                            <input type="radio" name="service" value="General Checkup">
-                                            <span class="content"><i class="fas fa-stethoscope"></i> <span data-en="General" data-ms="Umum">General</span></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="select-box">
-                                            <input type="radio" name="service" value="Pediatric">
-                                            <span class="content"><i class="fas fa-baby"></i> <span data-en="Kids" data-ms="Kanak-kanak">Kids</span></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="select-box">
-                                            <input type="radio" name="service" value="Ultrasound">
-                                            <span class="content"><i class="fas fa-wave-square"></i> Ultrasound</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="select-box">
-                                            <input type="radio" name="service" value="Vaccination">
-                                            <span class="content"><i class="fas fa-syringe"></i> <span data-en="Vaccine" data-ms="Vaksin">Vaccine</span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary-gradient mt-4 w-100" onclick="nextStep(1)" data-en="Next Step" data-ms="Langkah Seterusnya">Next Step</button>
                             </div>
 
                             <div class="wizard-step" id="step-2">
-                                <h5 class="mb-4" data-en="Preferred Time" data-ms="Masa Pilihan">Preferred Time</h5>
-                                
+                                <h5 class="mb-4" data-en="Choose Date & Time" data-ms="Pilih Tarikh & Masa">Choose Date & Time</h5>
+                                <p class="text-muted mb-3 small" data-en="Please enter the exact date and time for your visit." data-ms="Sila masukkan tarikh dan masa yang tepat untuk lawatan anda.">Please enter the exact date and time for your visit.</p>
+
                                 <div id="alert-2" class="alert-box" style="display:none;">
-                                    <i class="fas fa-exclamation-circle"></i> <span data-en="Please select one option." data-ms="Sila pilih satu pilihan.">Please select one option.</span>
+                                    <i class="fas fa-exclamation-circle"></i> <span data-en="Please fill in both date and time." data-ms="Sila isi tarikh dan masa.">Please fill in both date and time.</span>
                                 </div>
 
-                                <div class="d-flex flex-wrap gap-2">
-                                    <label class="time-pill"><input type="radio" name="time" value="Morning"><span data-en="Morning" data-ms="Pagi">Morning</span></label>
-                                    <label class="time-pill"><input type="radio" name="time" value="Afternoon"><span data-en="Afternoon" data-ms="Petang">Afternoon</span></label>
-                                    <label class="time-pill"><input type="radio" name="time" value="Evening"><span data-en="Evening" data-ms="Malam">Evening</span></label>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Date</label>
+                                    <input type="date" id="apptDate" class="form-control modern-input">
                                 </div>
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Time</label>
+                                    <input type="time" id="apptTime" class="form-control modern-input">
+                                </div>
+
                                 <div class="d-flex gap-3 mt-4">
                                     <button class="btn btn-light w-50" onclick="prevStep(2)" data-en="Back" data-ms="Kembali">Back</button>
                                     <button class="btn btn-primary-gradient w-50" onclick="nextStep(2)" data-en="Next" data-ms="Seterusnya">Next</button>

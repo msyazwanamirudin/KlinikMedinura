@@ -145,7 +145,7 @@ h1, h2, h3, h4, h5, h6 {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    overflow: hidden; /* Critical for mobile sizing */
+    overflow: hidden; 
 }
 
 .hero-text-col { padding-top: 20px; }
@@ -207,7 +207,7 @@ h1, h2, h3, h4, h5, h6 {
 .shape-fill { fill: var(--bg-body); }
 
 /* Service & Doctor Cards */
-.section-padding { padding: 100px 0; overflow: hidden; } /* Added overflow hidden */
+.section-padding { padding: 100px 0; overflow: hidden; } 
 .sub-title {
     display: block; text-transform: uppercase; letter-spacing: 2px;
     font-size: 0.85rem; font-weight: 700; color: var(--primary); margin-bottom: 10px;
@@ -304,14 +304,11 @@ h1, h2, h3, h4, h5, h6 {
 .appointment-sidebar p { color: rgba(255,255,255,0.8); }
 .appointment-body { padding: 60px 40px; }
 
-.select-box .content, .time-pill span, .modern-input {
-    border: 2px solid var(--border-color); background: var(--bg-body);
-    color: var(--text-heading); border-radius: 12px; font-weight: 600;
+.modern-input {
+    background: var(--bg-body); border: 1px solid var(--border-color);
+    padding: 15px; border-radius: 12px; color: var(--text-heading);
 }
-.select-box input:checked + .content, .time-pill input:checked + span {
-    border-color: var(--primary); background: var(--primary-soft); color: var(--primary);
-}
-.modern-input { padding: 15px; }
+.modern-input::placeholder { color: var(--text-muted); opacity: 0.6; }
 .modern-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); }
 
 /* Alert Box */
@@ -345,6 +342,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- FIX: QUIZ STYLE CONSISTENCY --- */
 /* By putting animation on .active only, every question animates in the same way */
-.quiz-step { display: none; }
-.quiz-step.active { display: block; animation: fadeIn 0.4s ease; }
+.quiz-step, .wizard-step { display: none; }
+.quiz-step.active, .wizard-step.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

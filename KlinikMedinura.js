@@ -46,7 +46,9 @@ function toggleLanguage() {
 function updateLanguageUI(lang) {
     currentLang = lang;
     const btn = document.getElementById('langBtn');
+    const mobileBtn = document.getElementById('langBtnMobile');
     if(btn) btn.textContent = lang === 'en' ? 'BM' : 'EN';
+    if(mobileBtn) mobileBtn.textContent = lang === 'en' ? 'BM' : 'EN';
 
     document.querySelectorAll('[data-en]').forEach(el => {
         const text = el.getAttribute(`data-${lang}`);
@@ -135,13 +137,13 @@ let quizData = { q1: 0, q2: 0, q3: 0 };
 function selectOption(qNum, val) {
     quizData['q'+qNum] = val;
     
-    // Hide current using Class, NOT inline style
+    // Hide current using Class
     const currentStep = document.getElementById(`q${qNum}`);
-    currentStep.classList.remove('active'); // CSS handles display:none
+    currentStep.classList.remove('active'); 
     
     if (qNum < 3) {
         const next = document.getElementById(`q${qNum + 1}`);
-        next.classList.add('active'); // CSS handles display:block + animation
+        next.classList.add('active');
     } else {
         showResult();
     }
@@ -180,14 +182,19 @@ function resetQuiz() {
     document.getElementById('q2').classList.remove('active');
     document.getElementById('q3').classList.remove('active');
     
-    // Add active to first to trigger animation
-    void document.getElementById('q1').offsetWidth; // Trigger reflow
+    // Trigger Reflow to restart animation
+    void document.getElementById('q1').offsetWidth; 
     document.getElementById('q1').classList.add('active');
     
     quizData = { q1: 0, q2: 0, q3: 0 };
 }
 
 // --- Appointment Wizard ---
+function autoNextStep(step, val) {
+    document.getElementById('selectedService').value = val;
+    nextStep(step);
+}
+
 function nextStep(current) {
     let isValid = false;
     let currentContainer = document.getElementById(`step-${current}`);
@@ -196,18 +203,20 @@ function nextStep(current) {
     removeErrors(currentContainer);
 
     if (current === 1) {
-        if (document.querySelector('input[name="service"]:checked')) isValid = true;
+        if (document.getElementById('selectedService').value !== '') isValid = true;
         else {
             if(alertBox) alertBox.style.display = 'block';
-            const options = currentContainer.querySelectorAll('.select-box .content');
+            const options = currentContainer.querySelectorAll('.quiz-btn');
             options.forEach(opt => opt.classList.add('input-error'));
             setTimeout(() => removeErrors(currentContainer), 500);
         }
     } else if (current === 2) {
-        if (document.querySelector('input[name="time"]:checked')) isValid = true;
+        const d = document.getElementById('apptDate').value;
+        const t = document.getElementById('apptTime').value;
+        if (d && t) isValid = true;
         else {
             if(alertBox) alertBox.style.display = 'block';
-            const options = currentContainer.querySelectorAll('.time-pill span');
+            const options = currentContainer.querySelectorAll('.form-control');
             options.forEach(opt => opt.classList.add('input-error'));
             setTimeout(() => removeErrors(currentContainer), 500);
         }
@@ -241,9 +250,10 @@ function submitAppointment(e) {
     if (!phoneInput.value.trim()) { phoneInput.classList.add('input-error'); isValid = false; }
 
     if (isValid) {
-        const service = document.querySelector('input[name="service"]:checked')?.value;
-        const time = document.querySelector('input[name="time"]:checked')?.value;
-        const text = `Hello Klinik Medinura!%0AI would like to book an appointment.%0A%0A👤 *Name:* ${nameInput.value}%0A📞 *Phone:* ${phoneInput.value}%0A🏥 *Service:* ${service}%0A🕒 *Time:* ${time}`;
+        const service = document.getElementById('selectedService').value;
+        const date = document.getElementById('apptDate').value;
+        const time = document.getElementById('apptTime').value;
+        const text = `Hello Klinik Medinura!%0AI would like to book an appointment.%0A%0A👤 *Name:* ${nameInput.value}%0A📞 *Phone:* ${phoneInput.value}%0A🏥 *Service:* ${service}%0A📅 *Date:* ${date}%0A🕒 *Time:* ${time}`;
         window.open(`https://wa.me/60105120050?text=${text}`, '_blank');
     } else {
         setTimeout(() => {
