@@ -131,20 +131,16 @@ function filterDoctors(category) {
 
 // --- Quiz Logic (Corrected Infinite Loop) ---
 let quizData = { q1: 0, q2: 0, q3: 0 };
-function selectOption(qNum, val) {
-    // Save value
-    quizData['q'+qNum] = val;
+function selectOption(qNum, val, btn) {
+    quizData[`q${qNum}`] = val;
+    const currentStep = document.getElementById(`q${qNum}`);
+    currentStep.style.display = 'none';
+    currentStep.classList.remove('active'); // Important for reset
     
-    // Hide current
-    const current = document.getElementById('q'+qNum);
-    current.classList.remove('active');
-    current.style.display = 'none';
-
-    // Show next or result
-    if(qNum < 3) {
-        const next = document.getElementById('q'+(qNum+1));
+    if (qNum < 3) {
+        const next = document.getElementById(`q${qNum + 1}`);
         next.style.display = 'block';
-        setTimeout(() => next.classList.add('active'), 50);
+        next.classList.add('active');
     } else {
         showResult();
     }
@@ -174,25 +170,25 @@ function showResult() {
 }
 
 function resetQuiz() {
-    // 1. Hide Result
+    // 1. Hide result
     document.getElementById('result').style.display = 'none';
     
-    // 2. Force hide ALL questions
-    for(let i=1; i<=3; i++) {
-        const el = document.getElementById('q'+i);
-        if(el) {
-            el.style.display = 'none';
-            el.classList.remove('active');
-        }
-    }
+    // 2. Hide ALL questions first to clear state
+    document.getElementById('q1').style.display = 'none';
+    document.getElementById('q2').style.display = 'none';
+    document.getElementById('q3').style.display = 'none';
     
-    // 3. Reset Data
-    quizData = { q1: 0, q2: 0, q3: 0 };
-    
-    // 4. Show First Question
+    document.getElementById('q1').classList.remove('active');
+    document.getElementById('q2').classList.remove('active');
+    document.getElementById('q3').classList.remove('active');
+
+    // 3. Show first question
     const q1 = document.getElementById('q1');
     q1.style.display = 'block';
     setTimeout(() => q1.classList.add('active'), 50);
+    
+    // 4. Reset Data
+    quizData = { q1: 0, q2: 0, q3: 0 };
 }
 
 // --- Appointment Wizard ---
