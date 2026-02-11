@@ -266,3 +266,62 @@ function submitAppointment(e) {
 function removeErrors(container) {
     container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
+/* =========================================
+   6. CONTENT PROTECTION (Speedbump)
+   ========================================= */
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. Create the Alert Bubble Dynamically
+    const alertBox = document.createElement('div');
+    alertBox.id = 'protection-alert';
+    // Using a lock icon and simple text
+    alertBox.innerHTML = '<i class="fas fa-lock"></i> <span>Content is protected</span>';
+    document.body.appendChild(alertBox);
+
+    // 2. Logic to Show/Hide Alert
+    let timeout;
+    function showProtectionAlert() {
+        alertBox.classList.add('show');
+        
+        // Reset timer if triggered multiple times
+        clearTimeout(timeout);
+        
+        // Hide after 2 seconds
+        timeout = setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 2000);
+    }
+
+    // 3. Disable Right Click
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showProtectionAlert();
+    });
+
+    // 4. Disable Keyboard Shortcuts (Copy, Save, Inspect)
+    document.addEventListener('keydown', (e) => {
+        // F12 (Dev Tools)
+        if (e.key === 'F12') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+        
+        // Ctrl+Shift+I (Inspect) or Ctrl+Shift+J (Console) or Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+
+        // Ctrl+U (View Source)
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+
+        // Ctrl+S (Save Page)
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+    });
+});

@@ -353,3 +353,41 @@ h1, h2, h3, h4, h5, h6 {
 .quiz-step, .wizard-step { display: none; }
 .quiz-step.active, .wizard-step.active { display: block; animation: fadeIn 0.4s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* =========================================
+   8. CONTENT PROTECTION (Speedbump)
+   ========================================= */
+#protection-alert {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(50px); /* Start hidden below */
+    background: var(--primary-dark); /* Using your #2C3E50 variable */
+    color: var(--white);
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    z-index: 9999; /* Higher than navbar */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy pop-up */
+    pointer-events: none;
+    border-left: 4px solid var(--accent); /* Gold accent bar */
+}
+
+#protection-alert.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+#protection-alert i {
+    color: var(--accent); /* Gold icon */
+    font-size: 1.1rem;
+}
