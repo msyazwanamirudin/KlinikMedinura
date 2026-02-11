@@ -3,9 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
         AOS.init({ duration: 800, once: true, offset: 50 });
     }
 
+    const savedTheme = localStorage.getItem('theme');
+    const savedLang = localStorage.getItem('language') || 'en';
+    
+    // Initial Load Logic (kept minimal just to apply saved state if any, but no toggles)
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
+    updateLanguageUI(savedLang);
     initScrollSpy();
-    shuffleQuiz(); // Shuffle on load
-
+    
     // --- Content Protection ---
     const alertBox = document.createElement('div');
     alertBox.id = 'protection-alert';
@@ -36,6 +43,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- Language Logic (Internal Only - No Toggles) ---
+let currentLang = 'en';
+
+function updateLanguageUI(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                const ph = el.getAttribute(`data-${lang}-placeholder`);
+                if(ph) el.placeholder = ph;
+            } else {
+                const icon = el.querySelector('i');
+                if (icon) {
+                    const safeText = text; 
+                    el.innerHTML = '';
+                    el.appendChild(icon);
+                    el.append(' ' + safeText);
+                } else {
+                    el.textContent = text;
+                }
+            }
+        }
+    });
+}
 
 // --- Scroll & Nav Logic ---
 function initScrollSpy() {
@@ -95,69 +128,6 @@ function filterDoctors(category) {
         }
     });
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
-}
-
-// --- Quiz Logic (FIXED STYLE & INFINITE LOOP & RANDOM) ---
-let quizData = { q1: 0, q2: 0, q3: 0 };
-
-function shuffleQuiz() {
-    const containers = document.querySelectorAll('.option-group');
-    containers.forEach(container => {
-        for (let i = container.children.length; i >= 0; i--) {
-            container.appendChild(container.children[Math.random() * i | 0]);
-        }
-    });
-}
-
-function selectOption(qNum, val) {
-    quizData['q'+qNum] = val;
-    
-    // Hide current using Class
-    const currentStep = document.getElementById(`q${qNum}`);
-    currentStep.classList.remove('active'); 
-    
-    if (qNum < 3) {
-        const next = document.getElementById(`q${qNum + 1}`);
-        next.classList.add('active');
-    } else {
-        showResult();
-    }
-}
-
-function showResult() {
-    const total = quizData.q1 + quizData.q2 + quizData.q3;
-    const resDiv = document.getElementById('result');
-    const title = resDiv.querySelector('.result-title');
-    const desc = resDiv.querySelector('.result-desc');
-    
-    document.getElementById('result').style.display = 'block';
-
-    if (total <= 2) {
-        title.innerText = "Low Risk"; title.className = "result-title text-success";
-        desc.innerText = "Mild condition. Rest well.";
-    } else if (total <= 5) {
-        title.innerText = "Moderate Risk"; title.className = "result-title text-warning";
-        desc.innerText = "Monitor closely.";
-    } else {
-        title.innerText = "High Risk"; title.className = "result-title text-danger";
-        desc.innerText = "Visit clinic immediately.";
-    }
-}
-
-function resetQuiz() {
-    document.getElementById('result').style.display = 'none';
-    
-    document.getElementById('q1').classList.remove('active');
-    document.getElementById('q2').classList.remove('active');
-    document.getElementById('q3').classList.remove('active');
-    
-    shuffleQuiz(); // Re-shuffle on reset
-
-    // Trigger Reflow to restart animation
-    void document.getElementById('q1').offsetWidth; 
-    document.getElementById('q1').classList.add('active');
-    
-    quizData = { q1: 0, q2: 0, q3: 0 };
 }
 
 // --- Appointment Wizard ---
