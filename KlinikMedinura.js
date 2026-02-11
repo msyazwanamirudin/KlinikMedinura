@@ -3,74 +3,39 @@ document.addEventListener('DOMContentLoaded', () => {
         AOS.init({ duration: 800, once: true, offset: 50 });
     }
 
-    const savedTheme = localStorage.getItem('theme');
-    const savedLang = localStorage.getItem('language') || 'en';
-    
-    if (savedTheme === 'dark') {
-        document.documentElement.setAttribute('data-theme', 'dark');
-        document.getElementById('themeIcon').className = 'fas fa-sun';
-        const mobileIcon = document.getElementById('themeIconMobile');
-        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
-    }
-    updateLanguageUI(savedLang);
     initScrollSpy();
     shuffleQuiz(); // Shuffle on load
-});
 
-// --- Theme Logic ---
-function toggleTheme() {
-    const html = document.documentElement;
-    const icon = document.getElementById('themeIcon');
-    const mobileIcon = document.getElementById('themeIconMobile');
-    
-    if (html.getAttribute('data-theme') === 'dark') {
-        html.removeAttribute('data-theme');
-        icon.className = 'fas fa-moon';
-        if(mobileIcon) mobileIcon.className = 'fas fa-moon';
-        localStorage.setItem('theme', 'light');
-    } else {
-        html.setAttribute('data-theme', 'dark');
-        icon.className = 'fas fa-sun';
-        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
-        localStorage.setItem('theme', 'dark');
+    // --- Content Protection ---
+    const alertBox = document.createElement('div');
+    alertBox.id = 'protection-alert';
+    alertBox.innerHTML = '<i class="fas fa-lock"></i> <span>Content is protected</span>';
+    document.body.appendChild(alertBox);
+
+    let timeout;
+    function showProtectionAlert() {
+        alertBox.classList.add('show');
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 2000);
     }
-}
 
-// --- Language Logic ---
-let currentLang = 'en';
-function toggleLanguage() {
-    currentLang = currentLang === 'en' ? 'ms' : 'en';
-    localStorage.setItem('language', currentLang);
-    updateLanguageUI(currentLang);
-}
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showProtectionAlert();
+    });
 
-function updateLanguageUI(lang) {
-    currentLang = lang;
-    const btn = document.getElementById('langBtn');
-    const mobileBtn = document.getElementById('langBtnMobile');
-    if(btn) btn.textContent = lang === 'en' ? 'BM' : 'EN';
-    if(mobileBtn) mobileBtn.textContent = lang === 'en' ? 'BM' : 'EN';
-
-    document.querySelectorAll('[data-en]').forEach(el => {
-        const text = el.getAttribute(`data-${lang}`);
-        if (text) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                const ph = el.getAttribute(`data-${lang}-placeholder`);
-                if(ph) el.placeholder = ph;
-            } else {
-                const icon = el.querySelector('i');
-                if (icon) {
-                    const safeText = text; 
-                    el.innerHTML = '';
-                    el.appendChild(icon);
-                    el.append(' ' + safeText);
-                } else {
-                    el.textContent = text;
-                }
-            }
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'F12' || 
+            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
+            (e.ctrlKey && e.key === 'u') || 
+            (e.ctrlKey && e.key === 's')) {
+            e.preventDefault();
+            showProtectionAlert();
         }
     });
-}
+});
 
 // --- Scroll & Nav Logic ---
 function initScrollSpy() {
@@ -147,6 +112,7 @@ function shuffleQuiz() {
 function selectOption(qNum, val) {
     quizData['q'+qNum] = val;
     
+    // Hide current using Class
     const currentStep = document.getElementById(`q${qNum}`);
     currentStep.classList.remove('active'); 
     
@@ -266,62 +232,3 @@ function submitAppointment(e) {
 function removeErrors(container) {
     container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
-/* =========================================
-   6. CONTENT PROTECTION (Speedbump)
-   ========================================= */
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. Create the Alert Bubble Dynamically
-    const alertBox = document.createElement('div');
-    alertBox.id = 'protection-alert';
-    // Using a lock icon and simple text
-    alertBox.innerHTML = '<i class="fas fa-lock"></i> <span>Content is protected</span>';
-    document.body.appendChild(alertBox);
-
-    // 2. Logic to Show/Hide Alert
-    let timeout;
-    function showProtectionAlert() {
-        alertBox.classList.add('show');
-        
-        // Reset timer if triggered multiple times
-        clearTimeout(timeout);
-        
-        // Hide after 2 seconds
-        timeout = setTimeout(() => {
-            alertBox.classList.remove('show');
-        }, 2000);
-    }
-
-    // 3. Disable Right Click
-    document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        showProtectionAlert();
-    });
-
-    // 4. Disable Keyboard Shortcuts (Copy, Save, Inspect)
-    document.addEventListener('keydown', (e) => {
-        // F12 (Dev Tools)
-        if (e.key === 'F12') {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-        
-        // Ctrl+Shift+I (Inspect) or Ctrl+Shift+J (Console) or Ctrl+Shift+C
-        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-
-        // Ctrl+U (View Source)
-        if (e.ctrlKey && e.key === 'u') {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-
-        // Ctrl+S (Save Page)
-        if (e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-    });
-});
