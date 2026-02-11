@@ -51,15 +51,15 @@ function updateLanguageUI(lang) {
     if(btn) btn.textContent = lang === 'en' ? 'BM' : 'EN';
     if(mobileBtn) mobileBtn.textContent = lang === 'en' ? 'BM' : 'EN';
 
+    // 1. Update Standard Text
     document.querySelectorAll('[data-en]').forEach(el => {
         const text = el.getAttribute(`data-${lang}`);
         if (text) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                const ph = el.getAttribute(`data-${lang}-placeholder`);
-                if(ph) el.placeholder = ph;
-            } else {
+            // Check if element is an Input or Textarea (skip here, handled below)
+            if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
                 const icon = el.querySelector('i');
                 if (icon) {
+                    // Preserve Icon if it exists
                     const safeText = text; 
                     el.innerHTML = '';
                     el.appendChild(icon);
@@ -69,6 +69,12 @@ function updateLanguageUI(lang) {
                 }
             }
         }
+    });
+
+    // 2. Update Placeholders (Fix for Appointment Form)
+    document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+        const ph = el.getAttribute(`data-${lang}-placeholder`);
+        if(ph) el.placeholder = ph;
     });
 }
 
@@ -165,18 +171,43 @@ function showResult() {
     const title = resDiv.querySelector('.result-title');
     const desc = resDiv.querySelector('.result-desc');
     
+    // Get current language
+    const lang = localStorage.getItem('language') || 'en';
+
+    // Translation Dictionary
+    const texts = {
+        low: {
+            en: { title: "Low Risk", desc: "Mild condition. Rest well." },
+            ms: { title: "Risiko Rendah", desc: "Keadaan ringan. Berehat secukupnya." }
+        },
+        moderate: {
+            en: { title: "Moderate Risk", desc: "Monitor closely." },
+            ms: { title: "Risiko Sederhana", desc: "Pantau dengan teliti." }
+        },
+        high: {
+            en: { title: "High Risk", desc: "Visit clinic immediately." },
+            ms: { title: "Risiko Tinggi", desc: "Sila ke klinik dengan segera." }
+        }
+    };
+
     document.getElementById('result').style.display = 'block';
 
+    let resultKey = '';
+
     if (total <= 2) {
-        title.innerText = "Low Risk"; title.className = "result-title text-success";
-        desc.innerText = "Mild condition. Rest well.";
+        resultKey = 'low';
+        title.className = "result-title text-success";
     } else if (total <= 5) {
-        title.innerText = "Moderate Risk"; title.className = "result-title text-warning";
-        desc.innerText = "Monitor closely.";
+        resultKey = 'moderate';
+        title.className = "result-title text-warning";
     } else {
-        title.innerText = "High Risk"; title.className = "result-title text-danger";
-        desc.innerText = "Visit clinic immediately.";
+        resultKey = 'high';
+        title.className = "result-title text-danger";
     }
+
+    // Apply Translated Text
+    title.innerText = texts[resultKey][lang].title;
+    desc.innerText = texts[resultKey][lang].desc;
 }
 
 function resetQuiz() {
@@ -267,6 +298,7 @@ function submitAppointment(e) {
 function removeErrors(container) {
     container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
+
 /* =========================================
    6. CONTENT PROTECTION (Speedbump)
    ========================================= */
