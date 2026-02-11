@@ -6,49 +6,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
     const savedLang = localStorage.getItem('language') || 'en';
     
-    // Initial Load Logic (kept minimal just to apply saved state if any, but no toggles)
     if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('themeIcon').className = 'fas fa-sun';
+        const mobileIcon = document.getElementById('themeIconMobile');
+        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
     }
     updateLanguageUI(savedLang);
     initScrollSpy();
-    
-    // --- Content Protection ---
-    const alertBox = document.createElement('div');
-    alertBox.id = 'protection-alert';
-    alertBox.innerHTML = '<i class="fas fa-lock"></i> <span>Content is protected</span>';
-    document.body.appendChild(alertBox);
-
-    let timeout;
-    function showProtectionAlert() {
-        alertBox.classList.add('show');
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            alertBox.classList.remove('show');
-        }, 2000);
-    }
-
-    document.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        showProtectionAlert();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'F12' || 
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || 
-            (e.ctrlKey && e.key === 'u') || 
-            (e.ctrlKey && e.key === 's')) {
-            e.preventDefault();
-            showProtectionAlert();
-        }
-    });
+    shuffleQuiz(); // Shuffle on load
 });
 
-// --- Language Logic (Internal Only - No Toggles) ---
+// --- Theme Logic ---
+function toggleTheme() {
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const mobileIcon = document.getElementById('themeIconMobile');
+    
+    if (html.getAttribute('data-theme') === 'dark') {
+        html.removeAttribute('data-theme');
+        icon.className = 'fas fa-moon';
+        if(mobileIcon) mobileIcon.className = 'fas fa-moon';
+        localStorage.setItem('theme', 'light');
+    } else {
+        html.setAttribute('data-theme', 'dark');
+        icon.className = 'fas fa-sun';
+        if(mobileIcon) mobileIcon.className = 'fas fa-sun';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// --- Language Logic ---
 let currentLang = 'en';
+function toggleLanguage() {
+    currentLang = currentLang === 'en' ? 'ms' : 'en';
+    localStorage.setItem('language', currentLang);
+    updateLanguageUI(currentLang);
+}
 
 function updateLanguageUI(lang) {
     currentLang = lang;
+    const btn = document.getElementById('langBtn');
+    const mobileBtn = document.getElementById('langBtnMobile');
+    if(btn) btn.textContent = lang === 'en' ? 'BM' : 'EN';
+    if(mobileBtn) mobileBtn.textContent = lang === 'en' ? 'BM' : 'EN';
+
     document.querySelectorAll('[data-en]').forEach(el => {
         const text = el.getAttribute(`data-${lang}`);
         if (text) {
@@ -130,6 +132,68 @@ function filterDoctors(category) {
     setTimeout(() => { if(typeof AOS !== 'undefined') AOS.refresh(); }, 100);
 }
 
+// --- Quiz Logic (FIXED STYLE & INFINITE LOOP & RANDOM) ---
+let quizData = { q1: 0, q2: 0, q3: 0 };
+
+function shuffleQuiz() {
+    const containers = document.querySelectorAll('.option-group');
+    containers.forEach(container => {
+        for (let i = container.children.length; i >= 0; i--) {
+            container.appendChild(container.children[Math.random() * i | 0]);
+        }
+    });
+}
+
+function selectOption(qNum, val) {
+    quizData['q'+qNum] = val;
+    
+    const currentStep = document.getElementById(`q${qNum}`);
+    currentStep.classList.remove('active'); 
+    
+    if (qNum < 3) {
+        const next = document.getElementById(`q${qNum + 1}`);
+        next.classList.add('active');
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    const total = quizData.q1 + quizData.q2 + quizData.q3;
+    const resDiv = document.getElementById('result');
+    const title = resDiv.querySelector('.result-title');
+    const desc = resDiv.querySelector('.result-desc');
+    
+    document.getElementById('result').style.display = 'block';
+
+    if (total <= 2) {
+        title.innerText = "Low Risk"; title.className = "result-title text-success";
+        desc.innerText = "Mild condition. Rest well.";
+    } else if (total <= 5) {
+        title.innerText = "Moderate Risk"; title.className = "result-title text-warning";
+        desc.innerText = "Monitor closely.";
+    } else {
+        title.innerText = "High Risk"; title.className = "result-title text-danger";
+        desc.innerText = "Visit clinic immediately.";
+    }
+}
+
+function resetQuiz() {
+    document.getElementById('result').style.display = 'none';
+    
+    document.getElementById('q1').classList.remove('active');
+    document.getElementById('q2').classList.remove('active');
+    document.getElementById('q3').classList.remove('active');
+    
+    shuffleQuiz(); // Re-shuffle on reset
+
+    // Trigger Reflow to restart animation
+    void document.getElementById('q1').offsetWidth; 
+    document.getElementById('q1').classList.add('active');
+    
+    quizData = { q1: 0, q2: 0, q3: 0 };
+}
+
 // --- Appointment Wizard ---
 function autoNextStep(step, val) {
     document.getElementById('selectedService').value = val;
@@ -202,3 +266,62 @@ function submitAppointment(e) {
 function removeErrors(container) {
     container.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
 }
+/* =========================================
+   6. CONTENT PROTECTION (Speedbump)
+   ========================================= */
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. Create the Alert Bubble Dynamically
+    const alertBox = document.createElement('div');
+    alertBox.id = 'protection-alert';
+    // Using a lock icon and simple text
+    alertBox.innerHTML = '<i class="fas fa-lock"></i> <span>Content is protected</span>';
+    document.body.appendChild(alertBox);
+
+    // 2. Logic to Show/Hide Alert
+    let timeout;
+    function showProtectionAlert() {
+        alertBox.classList.add('show');
+        
+        // Reset timer if triggered multiple times
+        clearTimeout(timeout);
+        
+        // Hide after 2 seconds
+        timeout = setTimeout(() => {
+            alertBox.classList.remove('show');
+        }, 2000);
+    }
+
+    // 3. Disable Right Click
+    document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        showProtectionAlert();
+    });
+
+    // 4. Disable Keyboard Shortcuts (Copy, Save, Inspect)
+    document.addEventListener('keydown', (e) => {
+        // F12 (Dev Tools)
+        if (e.key === 'F12') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+        
+        // Ctrl+Shift+I (Inspect) or Ctrl+Shift+J (Console) or Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+
+        // Ctrl+U (View Source)
+        if (e.ctrlKey && e.key === 'u') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+
+        // Ctrl+S (Save Page)
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            showProtectionAlert();
+        }
+    });
+});
